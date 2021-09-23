@@ -1,0 +1,96 @@
+<!--pages/apply/apply.wxml-->
+<!--还没提交过信息的显示方式-->
+<block wx:if="{{show==1}}">
+       <!--通知-->
+        <van-notice-bar
+          left-icon="volume"
+          background="white"
+          color="#1c2438"
+          text="为了所有用户的财产安全，加入跑男需提交身份证正反面，并且需交一定押金哦，退出可全额返还！"
+          speed="40"
+        />
+
+        <!--提交信息-->
+        <van-field
+            value="{{ name }}"
+            placeholder="请输入姓名"
+            label="姓名"
+            required
+            clearable
+            bind:change="onChange"
+        />
+        <van-cell required title="校区" bind:click="popup_campus" value="{{choose_campus}}" is-link />
+        <van-popup show="{{ campus_show }}" round position="bottom" duration>
+            <van-picker columns="{{ campus }}" show-toolbar title="请选择校区" bind:confirm="campus_confirm" bind:cancel="campus_cancel" bind:change="campus_change" />
+        </van-popup>
+        
+        <van-field
+            value="{{ phone }}"
+            placeholder="请获取手机号码"
+            label="手机号码"
+            required
+            readonly
+            clearable
+            use-button-slot
+        >
+            <van-button slot="button" custom-style="width:190rpx;font-size:25rpx" size="small" type="primary" open-type="getPhoneNumber" bind:getphonenumber="get_phone">
+              获取手机号码
+            </van-button>
+        </van-field>
+
+        <!--上传身份证正反面-->
+        <van-cell title="上传身份证正面照片" required/>
+        <view class="card">
+              <image wx:if="{{!preview_zheng}}" mode="aspectFit" style="height: 250rpx;" src="{{zheng_img}}"></image>
+              <image wx:if="{{preview_zheng}}" mode="aspectFit" style="height: 250rpx;" src="{{zheng_img}}" bindtap="preview_zheng"></image>
+              <button style="font-size: 30rpx;" size="mini" type="primary" bindtap="getUserProfile">上传正面照片</button>
+        </view>
+        <van-cell title="上传身份证反面照片" required/>
+        <view class="card">
+              <image wx:if="{{!preview_fan}}" mode="aspectFit" style="height: 250rpx;" src="{{fan_img}}"></image>
+              <image wx:if="{{preview_fan}}" mode="aspectFit" style="height: 250rpx;" src="{{fan_img}}" bindtap="preview_fan"></image>
+              <button style="font-size: 30rpx;" size="mini" type="primary" bindtap="upload_fan">上传反面照片</button>
+        </view>
+
+        <!--空隙-->
+        <view class="kongxi"></view>
+
+        <!--提交审核按钮-->
+        <view class="submit">
+            <van-button round size="small" color="#7232dd" bind:click="subscribeMessage">支付接单押金</van-button>
+        </view>
+
+        <!--底部声明-->
+              <view class="shen_title">
+                    <image class="about" src="/images/about.png" />使用申明
+              </view>
+              <view class="des">1. 支付押金后，工作人员会及时审核信息，审核通过后即可接单哦，请您耐心等待。</view>
+              <view class="des">2. 为了所有用户的财产安全，加入跑男需提交身份证正反面，并且需交一定押金哦，退出可全额返还！</view>
+              <view class="des">3. 在未经您同意及确认之前，本程序不会将您的注册信息用于任何其它商业目的。</view>
+              <view class="des">4. 本程序将对您所提供的资料进行严格的管理及保护，本程序将使用加密技术，防止您的个人资料丢失、被盗用或遭篡改。</view>
+              <view class="des">5. 请您放心使用！</view>
+
+        <!--空隙-->
+        <view class="kongxi"></view>
+</block>
+
+<!--正在审核或者违规暂停权限-->
+<block wx:if="{{show==2}}">
+    <view class="shenhe">
+        <image mode="aspectFit" style="width: 400rpx;height: 400rpx;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/shenhe_zhong.png?sign=d9945f06a3a6cdc2862642138a06ae02&t=1630590969"></image>
+        <image class="shenhe_gif" style="width: 50%;height: 300rpx;"  src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/jia.gif?sign=9990d8f902a152c8117c9e3cbd25efc4&t=1630592406"></image>
+        <view class="shen_text">正在加急审核，请您耐心等待...</view>
+    </view>
+</block>
+
+<!--审核成功,可以复用审核中的shenheCSS样式-->
+<block wx:if="{{show==3}}">
+  <view class="shenhe">
+        <image class="shenhe_gif" style="width: 50%;height: 350rpx;"  src="/images/renzheng.png"></image>
+        <view class="shen_text">恭喜认证成功！</view>
+        <van-button round size="mini" type="danger" bind:click="tui_yajin">退押金</van-button>
+        <view style="color: #999999;margin-top: 50rpx;font-size: 25rpx;">退押金成功后，请耐心等待汇款</view>
+    </view>
+</block>
+
+

@@ -1,0 +1,29 @@
+<!--pages/my/my.wxml-->
+<!--头像-->
+<image class="tou_img" style="width:100%;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/banner.png?sign=0a1f7dce688e218176f262b9f6f78317&t=1630646203"></image>
+<view class="touxiang">
+  <view class="img">
+    <open-data type="userAvatarUrl"></open-data>
+  </view>
+  <view class="tou_ren">
+    <open-data type="userNickName"></open-data>
+    <image wx:if="{{show==3}}" mode="aspectFit" style="width: 50rpx; height: 50rpx;" src="/images/renzheng.png"></image>
+  </view>
+</view>
+<!--单元格-->
+<view class="zhong">
+  <van-cell title-class="ziti" icon="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/ziliao.png?sign=f17fa28be605a238aafd96e8e9ceca6c&t=1630385707" title="修改资料" is-link link-type="navigateTo" url="/pages/edit/edit"/>
+  <van-cell title-class="ziti" icon="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/qianbao.png?sign=cb19f1a8c4540564b6616674632a17a5&t=1630385684" title="我的钱包" is-link link-type="navigateTo" url="/pages/parse/parse"/>
+  <van-cell title-class="ziti" icon="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/paihangbai.png?sign=6dbb8ef721b9fa09d90fc93958628b9f&t=1631533374" title="跑腿员排行榜" is-link link-type="navigateTo" url="/pages/paihang/paihang?id={{renzheng}}"/>
+  <van-cell wx:if="{{renzheng=='已认证'}}" title-class="ziti" icon="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/dianzan.png?sign=18e6b6615b1144f7bf29704320f030db&t=1632047651" title="查看客户评价" is-link link-type="navigateTo" url="/pages/chakan_pingjia/chakan_pingjia?openid={{_openid}}"/>
+  <van-cell title-class="ziti" icon="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/paonan.png?sign=cd239b923cc0679bed1bea05bbd9aecb&t=1630385788" title="成为跑腿员" value="{{renzheng}}" value-class="jiedan" is-link link-type="navigateTo" url="/pages/apply/apply"/>
+  <van-cell title-class="ziti" icon="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/kefu.png?sign=6949316c5af5c31c40e8b6db56b808d0&t=1630385642" title="联系客服" is-link link-type="navigateTo" url="/pages/kefu/kefu"/>
+  <van-cell title-class="ziti" icon="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/yijian.png?sign=3207545e184059fdf0b99035f608f48c&t=1632042656" title="意见反馈" is-link link-type="navigateTo" url="/pages/yijian/yijian"/>
+</view>
+  
+
+
+<!--底部-->  
+<view class="dibu">
+     <text>——优我帮提供服务——</text>
+</view>

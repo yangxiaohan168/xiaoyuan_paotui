@@ -1,0 +1,69 @@
+/* pages/pingjia/pingjia.wxss */
+
+.top{
+  width: 90%;
+  margin-left: 5%;
+  height: 100rpx;
+  
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  font-size: 30rpx;
+  align-items: center;
+  margin-top: 100rpx;
+}
+.top_right{
+  margin-left: 30rpx;
+}
+
+.des {
+  padding-left: 40rpx;
+  padding-top: 20rpx;
+  font-size: 26rpx;
+  color: #acacac;
+  letter-spacing: 2rpx;
+  line-height: 42rpx;
+}
+.b_notes {
+  width: 100%;
+  padding: 10rpx;
+  display: flex;
+  box-sizing: border-box;
+}
+
+.b_text {
+  width: 94%;
+  height: 200rpx;
+  padding: 20rpx;
+  border-radius: 10rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  background: rgb(238, 238, 238);
+  margin-left: 3%;
+}
+
+.b_text textarea {
+  width: 100%;
+  height: 130rpx;
+  font-size: 28rpx;
+  color: #8c9aa8;
+  border-spacing: 2rpx;
+}
+
+.b_less {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 28rpx;
+  letter-spacing: 2rpx;
+  color: #8c9aa8;
+}
+
+.bottom{
+  margin-top: 100rpx;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}

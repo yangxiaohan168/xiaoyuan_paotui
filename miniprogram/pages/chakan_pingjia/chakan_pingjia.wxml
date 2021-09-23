@@ -1,0 +1,32 @@
+<!--pages/chakan_pingjia/chakan_pingjia.wxml-->
+
+<block wx:if="{{list.length!==0}}" wx:for="{{list}}" wx:key="index">
+      <view class="tiezi">
+            <view class="tiezi_left">
+                <view class="round">
+                     <image src="{{item.avatarUrl}}"></image>
+                </view>
+            </view>
+            <view class="tiezi_right">
+                 <view class="right_top">
+                    <view class="top">
+                         <view class="top1">
+                            <view>{{item.nickName}}</view>
+                            <view>{{item.time}}评价</view>
+                         </view>
+                         <view class="top2">
+                          <van-rate size="40rpx" readonly custom-class="top_right" value="{{ item.value }}" />
+                         </view>
+                    </view>
+                 </view>
+                 <view class="right_center">
+                    <view class="center1">
+                         {{item.notes}}
+                    </view>
+                    
+                 </view>
+                
+                 
+            </view>
+        </view>
+</block>

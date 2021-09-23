@@ -1,0 +1,109 @@
+/* pages/index/index.wxss */
+page{
+  background-color: #e9eaec;
+}
+.banner{
+  width: 100%;
+  display: flex;
+  height: 400rpx;
+  z-index: -1;
+}
+.bang{
+  width: 90%;
+  height: 200rpx;
+  margin-left: 5%;
+  margin-top: 300rpx;
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  background-color: white;
+  border-radius: 10rpx;
+  align-items: center;
+  box-shadow: #dddee1 5rpx 5rpx;
+}
+.bang_1{
+  width: 30%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 30rpx;
+  
+}
+.bang_1 image{
+  width: 100rpx;
+  height: 100rpx;
+}
+
+.tongzhi{
+  margin-top: 120rpx;
+}
+
+.dai{
+  background-color: white;
+  width: 100%;
+  height: 500rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 20rpx;
+  font-size: 30rpx;
+  flex-wrap: wrap;
+  
+ 
+}
+.dai_li1{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #dddee1;
+  width: 45%;
+  height: 30%;
+  border-radius: 10rpx;
+  padding: 0rpx 5rpx 0rpx 5rpx;
+}
+.dai_li1 image{
+  height: 50%;
+  width: 35%;
+}
+
+.yige{
+  
+  width: 100%;
+  padding: 25rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+}
+
+.dakuang{
+  background-color: white;
+  width: 100%;
+  margin: auto;
+  display: flex;
+  flex-direction:column;
+  justify-content: center;
+  
+  border-radius: 30rpx;
+  
+}
+.zuoxia{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.zuoxia2{
+  width: 190rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.wen{
+  margin-top: 20rpx;
+  width: 100%;
+}

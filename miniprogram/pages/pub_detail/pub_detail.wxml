@@ -1,0 +1,221 @@
+<!--pages/pub_detail/pub_detail.wxml-->
+<block wx:if="{{info.category=='其他跑腿'}}">
+                <view wx:if="{{info.notes!==''}}" class="des">这是备注</view>
+                  <view class="b_notes">
+                    <view class="b_text">
+                          <textarea value="{{info.notes}}"  disabled ></textarea>
+                    </view>
+                  </view>
+        <view class="top">
+        
+      </view>
+
+      <block wx:if="{{info.fileList!==0}}" wx:for="{{info.fileList}}" wx:key="index">
+              <van-button bind:click="xiazai" data-url="{{item.url}}" type="primary" size="mini">第{{index+1}}个文件</van-button>
+      </block>
+
+      <view class="top">
+        <van-field
+          value="{{ info.shoujian_name }}"
+          label="收件人"
+          readonly
+        />
+        <van-field
+          value="{{ info.phone }}"
+          label="收件号码"
+          readonly
+          right-icon="phone-o"
+          bind:click-icon="da_dianhua"
+          data-phone="{{info.phone}}"
+        />
+        <view class="des"> 温馨提示：地址太长，可以双击滑动查看地址</view>
+        <van-field
+          value="{{ info.end_location }}"
+          label="收件地址"
+          
+        />
+      </view>
+</block>
+<!--帮我送-->
+<block wx:if="{{info.category=='帮我送'}}">
+            <block wx:if="{{info.notes!==''}}">
+              <view class="des">这是备注</view>
+                  <view class="b_notes">
+                    <view class="b_text">
+                          <textarea value="{{info.notes}}"  disabled ></textarea>
+                    </view>
+                  </view>
+            </block>
+               
+        <view class="top">
+        <van-field
+          value="{{ info.jijian_name }}"
+          label="寄件人"
+          readonly
+        />
+        <van-field
+          value="{{ info.phone }}"
+          label="寄件号码"
+          readonly
+          right-icon="phone-o"
+          bind:click-icon="da_dianhua"
+          data-phone="{{info.phone}}"
+        />
+        <view class="des"> 温馨提示：地址太长，可以双击滑动查看地址</view>
+        <van-field
+          value="{{ info.start_location }}"
+          label="寄件地址"
+          
+        />
+      </view>
+
+      <block wx:if="{{info.polyline.length!==0}}">
+          <view class="ditu">
+            <map scale="16" polyline="{{info.polyline}}" latitude="{{info.start_latitude}}" longitude="{{info.start_longitude}}"></map>
+          </view>
+      </block>
+
+      <view class="top">
+        <van-field
+          value="{{ info.shoujian_name }}"
+          label="收件人"
+          readonly
+        />
+        <van-field
+          value="{{ info.shoujian_phone }}"
+          label="收件号码"
+          readonly
+          right-icon="phone-o"
+          bind:click-icon="da_dianhua"
+          data-phone="{{info.shoujian_phone}}"
+        />
+        <view class="des"> 温馨提示：地址太长，可以双击滑动查看地址</view>
+        <van-field
+          value="{{ info.end_location }}"
+          label="收件地址"
+          
+        />
+      </view>
+</block>
+<!--帮我取-->
+<block wx:if="{{info.category=='帮我取'}}">
+                <view wx:if="{{info.notes!==''&&info.state!==1}}" class="des">这是备注</view>
+                  <view wx:if="{{info.notes!==''&&info.state!==1}}" class="b_notes">
+                    <view class="b_text">
+                          <textarea value="{{info.notes}}"  disabled ></textarea>
+                    </view>
+                  </view>
+              <block wx:if="{{info.fileList.length!==0}}">
+                <view class="des"> 温馨提示：这是取件截图</view>
+                <view class="img" >
+                        <!--使用vant组件的uploader有问题，不兼容苹果手机，所以只能手写界面了-->
+                        <!-- <van-uploader file-list="{{ fileList }}" bind:before-read="uploadToCloud" bind:delete="delete" use-before-read accept="image" sizeType multiple="{{multiple}}" max-count="9" capture deletable preview-image/> -->
+                        <block wx:for="{{ info.fileList }}" wx:key="index">
+                            <view class="img2">
+                              <image bindtap="previewImage" data-url="{{item.url}}" src="{{item.url}}"></image>
+                            </view> 
+                        </block>
+                </view>
+              </block>
+                  
+               
+                 
+
+        <view class="top">
+        
+          <view class="des"> 温馨提示：地址太长，可以双击滑动查看地址</view>
+        <van-field
+          value="{{ info.start_location }}"
+          label="取件地址"
+          
+        />
+      </view>
+
+      <block wx:if="{{info.polyline.length!==0}}">
+          <view class="ditu">
+            <map scale="16" polyline="{{info.polyline}}" latitude="{{info.start_latitude}}" longitude="{{info.start_longitude}}"></map>
+          </view>
+      </block>
+
+      <view class="top">
+        <van-field
+          value="{{ info.shoujian_name }}"
+          label="收件人"
+          readonly
+        />
+        <van-field
+          value="{{ info.phone }}"
+          label="收件号码"
+          readonly
+          right-icon="phone-o"
+          bind:click-icon="da_dianhua"
+          data-phone="{{info.phone}}"
+        />
+        <view class="des"> 温馨提示：地址太长，可以双击滑动查看地址</view>
+        <van-field
+          value="{{ info.end_location }}"
+          label="收件地址"
+          
+        />
+      </view>
+</block>
+<!--帮我买-->
+<block wx:if="{{info.category=='帮我买'}}">
+
+        <view class="top">
+                   <view class="des">这是要买的商品名称</view>
+                  <view class="b_notes">
+                    <view class="b_text">
+                          <textarea value="{{info.notes}}"  disabled ></textarea>
+                    </view>
+                  </view>
+                  <view wx:if="{{info.fileList.length!==0}}" class="des">这是要买的商品图片</view>
+                  <block wx:if="{{info.fileList.length!==0}}" wx:for="{{info.fileList}}" wx:key="index">
+                             <image class="shangping_img" bindtap="yulan_img" data-img="{{item.url}}" src="{{item.url}}"></image>
+                  </block>
+                  <block wx:if="{{info.mai_location!=='请选择购买地点'}}">
+                    <view class="des"> 温馨提示：地址太长，可以双击滑动查看地址</view>
+                    <van-field
+                    value="{{ info.mai_location }}"
+                    label="买东西地址"
+                  />
+                  </block>
+                  <block wx:if="{{info.mai_location=='请选择购买地点'}}">
+                    <van-field
+                    value="{{ jiujin }}"
+                    label="买东西地址"
+                  />
+                  </block>
+              
+      </view>
+
+      <block wx:if="{{info.polyline.length!==0}}">
+          <view class="ditu">
+            <map scale="16" polyline="{{info.polyline}}" latitude="{{info.mai_latitude}}" longitude="{{info.mai_longitude}}"></map>
+          </view>
+      </block>
+
+      <view class="top">
+        <van-field
+          value="{{ info.shoujian_name }}"
+          label="收货人"
+          readonly
+        />
+        <van-field
+          value="{{ info.phone }}"
+          label="收货号码"
+          readonly
+          right-icon="phone-o"
+          bind:click-icon="da_dianhua"
+          data-phone="{{info.phone}}"
+        />
+        <view class="des">温馨提示：地址太长，可以双击滑动查看地址</view>
+        <van-field
+          value="{{ info.end_location }}"
+          label="收货地址"
+          
+        />
+      </view>
+</block>
+
+

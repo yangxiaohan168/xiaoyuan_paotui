@@ -1,0 +1,14 @@
+<!--pages/yijian/yijian.wxml-->
+<view class="kongxi"></view>
+<view class="des">1. 温馨提示：请在下方填写您的宝贵意见</view>
+<view class="b_notes">
+            <view class="b_text">
+                  <textarea value="{{notes}}" bindinput="noteInput" maxlength="100" placeholder="请输入您的宝贵意见"></textarea>
+                  <view class="b_less">{{note_counts}}/100</view>
+            </view>
+</view>
+
+<view class="bottom">
+  <van-button round size="small" type="primary" bind:click="getUserProfile">提交宝贵意见</van-button>
+</view>
+

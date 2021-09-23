@@ -1,0 +1,21 @@
+<!--pages/detail/detail.wxml-->
+<block wx:if="{{show==1}}">
+  <view class="detail">
+    <rich-text nodes="{{content}}"></rich-text> 
+  </view>
+</block>
+<block wx:if="{{show==2}}">
+  <image style="width: 50%;height: 200rpx;border-radius: 20rpx;margin-left: 25%;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/read.gif?sign=1dfce0a6d457960fb78a3aa8919449b4&t=1630646272"></image>
+  <view class="detail">
+      <rich-text nodes="{{Url}}"></rich-text>
+  </view>
+</block>
+
+
+
+
+<!--以下是行不通的，域名必须是自己有的，不然即使是企业用户，也无法使用web-view组件-->
+<!-- <block wx:if="{{show==2}}">
+  <web-view src="{{url}}"></web-view>
+</block> -->
+

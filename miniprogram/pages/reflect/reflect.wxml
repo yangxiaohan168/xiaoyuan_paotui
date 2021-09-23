@@ -1,0 +1,28 @@
+<!--pages/reflect/reflect.wxml-->
+<view class="contain">
+      <view class="cardyuer">
+            <view class="title">我的余额</view>
+            <view class="num">{{balance}}.00</view>
+      </view>
+
+      <view class="card">
+          
+            <view class="b2">
+                  
+                  <view class="d2">
+                        <input type="number" bindinput="phoneInput" placeholder-class="blank" placeholder="请输入支付宝账号（手机号）" value="{{phone}}"></input>
+                  </view>
+
+            </view>
+      </view>
+      <view class="confirm" bindtap="check">确认提现</view>
+      <view class="tips">
+            <view class="t1">
+                  <image src="/images/about.png" /> 提现说明：
+            </view>
+            
+            <view class="t2">1. 请务必确保输入的手机号码正确！</view>
+            <view class="t2">2. 请提供支付宝账号号码，24小时到账哦</view>
+            <view class="t2">3. 本程序竭力保证每位同学的利益，出现任何问题不要慌，马上和客服联系处理</view>
+      </view>
+</view>

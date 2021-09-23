@@ -1,0 +1,33 @@
+/* pages/detail/detail.wxss */
+
+.detail{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+  
+  
+}
+.art_p{
+  font-size: 30rpx;
+  margin-top: 40rpx;
+}
+.article-editor{
+  font-size: 30rpx;
+  margin-top: 40rpx;
+  margin-bottom: 50rpx;
+}
+
+.art_img_mini_img j_fullppt_cover{
+  width: 300rpx;
+  height: 200rpx;
+}
+.zi{
+  font-size: 30rpx;
+}
+.content{
+  font-size: 30rpx;
+}

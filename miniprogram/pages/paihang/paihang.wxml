@@ -1,0 +1,142 @@
+<!--pages/paihang/paihang.wxml-->
+<wxs src="../../common.wxs" module="morejs" />
+<van-dropdown-menu>
+  <van-dropdown-item bind:change="time_change" bind:closed="time_close" value="{{ value1 }}" options="{{ option1 }}" />
+  <van-dropdown-item bind:change="paixu_change" bind:closed="paixu_close" value="{{ value2 }}" options="{{ option2 }}" />
+</van-dropdown-menu>
+<block wx:if="{{renzheng=='已认证'}}">
+     <view class="diji">
+         <text wx:if="{{mingci<101}}">您的排名是第{{mingci+1}}名</text>
+         
+     </view>
+     <view class="diji" wx:if="{{mingci>100}}">
+         <text>您的排名是第99+名</text>
+     </view>
+</block>
+
+<block wx:if="{{list.length!==0}}" wx:for="{{list}}" wx:key="index">
+  <!--第一名-->
+  <view wx:if="{{index==0}}" style="background: linear-gradient(to bottom right, #ed3f14, #ff9900);" class="jilu">
+       <view class="jilu_left">
+          <view class="round">
+               <image src="{{item._id.jiedan_avatarUrl}}"></image>
+          </view>
+          <view class="nickname">{{item._id.jiedan_nickName}}</view>
+       </view>
+
+       <view class="jilu_right">
+            <view class="shuju">
+               <block wx:if="{{item.cost}}">
+                    <image class="shuju_img" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/qian.png?sign=6d0ace3cd6715c7ce7aac96004cd17d2&t=1631542754"></image>
+                    <view style="color: red;">{{morejs.yueshu(item.cost)}}元</view>
+               </block>
+               <block wx:if="{{item.zong_time}}">
+                    <image class="shuju_img" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/shijian.png?sign=90e37c20e460f2597bc232c8275db198&t=1631590857"></image>
+                    <view style="color: red;">{{morejs.yueshu(item.zong_time)}}分钟</view>
+               </block>
+                
+            </view>
+
+            <view class="left_round">
+                 <image wx:if="{{index==0}}" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/diyi.png?sign=682b83480247a5bcb35d21366633ee61&t=1631541941"></image>
+                 <image wx:if="{{index==1}}" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/diewr.png?sign=ba6556930c0651023832b8cd668417bf&t=1631542385"></image>
+                 <image wx:if="{{index==2}}" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/disange.png?sign=bf8527ed7a2dd17468daa540ccc696f9&t=1631542585"></image>
+                 <view wx:if="{{index>2}}">{{index+1}}</view>
+            </view>
+       </view>
+   </view>
+   <!--第二名-->
+   <view wx:if="{{index==1}}" style="background: linear-gradient(to bottom right, #19be6b, #00FF7F);" class="jilu">
+       <view class="jilu_left">
+          <view class="round">
+               <image src="{{item._id.jiedan_avatarUrl}}"></image>
+          </view>
+          <view class="nickname">{{item._id.jiedan_nickName}}</view>
+       </view>
+
+       <view class="jilu_right">
+            <view class="shuju">
+               <block wx:if="{{item.cost}}">
+                    <image class="shuju_img" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/qian.png?sign=6d0ace3cd6715c7ce7aac96004cd17d2&t=1631542754"></image>
+                    <view style="color: red;">{{morejs.yueshu(item.cost)}}元</view>
+               </block>
+               <block wx:if="{{item.zong_time}}">
+                    <image class="shuju_img" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/shijian.png?sign=90e37c20e460f2597bc232c8275db198&t=1631590857"></image>
+                    <view style="color: red;">{{morejs.yueshu(item.zong_time)}}分钟</view>
+               </block>
+                
+            </view>
+
+            <view class="left_round">
+                 <image wx:if="{{index==0}}" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/diyi.png?sign=682b83480247a5bcb35d21366633ee61&t=1631541941"></image>
+                 <image wx:if="{{index==1}}" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/diewr.png?sign=ba6556930c0651023832b8cd668417bf&t=1631542385"></image>
+                 <image wx:if="{{index==2}}" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/disange.png?sign=bf8527ed7a2dd17468daa540ccc696f9&t=1631542585"></image>
+                 <view wx:if="{{index>2}}">{{index+1}}</view>
+            </view>
+       </view>
+   </view>
+   <!--第三名-->
+   <view wx:if="{{index==2}}" style="background: linear-gradient(to bottom right, #2d8cf0,#87CEFA);" class="jilu">
+       <view class="jilu_left">
+          <view class="round">
+               <image src="{{item._id.jiedan_avatarUrl}}"></image>
+          </view>
+          <view class="nickname">{{item._id.jiedan_nickName}}</view>
+       </view>
+
+       <view class="jilu_right">
+            <view class="shuju">
+               <block wx:if="{{item.cost}}">
+                    <image class="shuju_img" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/qian.png?sign=6d0ace3cd6715c7ce7aac96004cd17d2&t=1631542754"></image>
+                    <view style="color: red;">{{morejs.yueshu(item.cost)}}元</view>
+               </block>
+               <block wx:if="{{item.zong_time}}">
+                    <image class="shuju_img" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/shijian.png?sign=90e37c20e460f2597bc232c8275db198&t=1631590857"></image>
+                    <view style="color: red;">{{morejs.yueshu(item.zong_time)}}分钟</view>
+               </block>
+                
+            </view>
+
+            <view class="left_round">
+                 <image wx:if="{{index==0}}" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/diyi.png?sign=682b83480247a5bcb35d21366633ee61&t=1631541941"></image>
+                 <image wx:if="{{index==1}}" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/diewr.png?sign=ba6556930c0651023832b8cd668417bf&t=1631542385"></image>
+                 <image wx:if="{{index==2}}" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/disange.png?sign=bf8527ed7a2dd17468daa540ccc696f9&t=1631542585"></image>
+                 <view wx:if="{{index>2}}">{{index+1}}</view>
+            </view>
+       </view>
+   </view>
+   <!--第四名往后-->
+   <view wx:if="{{index>2}}" style="background-color: white;" class="jilu">
+       <view class="jilu_left">
+          <view class="round">
+               <image src="{{item._id.jiedan_avatarUrl}}"></image>
+          </view>
+          <view class="nickname">{{item._id.jiedan_nickName}}</view>
+       </view>
+
+       <view class="jilu_right">
+            <view class="shuju">
+               <block wx:if="{{item.cost}}">
+                    <image class="shuju_img" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/qian.png?sign=6d0ace3cd6715c7ce7aac96004cd17d2&t=1631542754"></image>
+                    <view style="color: red;">{{morejs.yueshu(item.cost)}}元</view>
+               </block>
+               <block wx:if="{{item.zong_time}}">
+                    <image class="shuju_img" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/shijian.png?sign=90e37c20e460f2597bc232c8275db198&t=1631590857"></image>
+                    <view style="color: red;">{{morejs.yueshu(item.zong_time)}}分钟</view>
+               </block>
+                
+            </view>
+
+            <view class="left_round">
+                 <image wx:if="{{index==0}}" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/diyi.png?sign=682b83480247a5bcb35d21366633ee61&t=1631541941"></image>
+                 <image wx:if="{{index==1}}" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/diewr.png?sign=ba6556930c0651023832b8cd668417bf&t=1631542385"></image>
+                 <image wx:if="{{index==2}}" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/disange.png?sign=bf8527ed7a2dd17468daa540ccc696f9&t=1631542585"></image>
+                 <view wx:if="{{index>2}}">{{index+1}}</view>
+            </view>
+       </view>
+   </view>
+</block>
+
+<block wx:if="{{list.length==0}}">
+                  <van-empty description="空空如也" />
+</block>

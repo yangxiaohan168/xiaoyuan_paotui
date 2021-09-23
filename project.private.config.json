@@ -1,0 +1,126 @@
+{
+  "setting": {},
+  "condition": {
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "id": -1,
+          "name": "db guide",
+          "pathName": "pages/databaseGuide/databaseGuide",
+          "query": ""
+        },
+        {
+          "name": "pages/getOpenId/index",
+          "pathName": "pages/getOpenId/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/deployService/index",
+          "pathName": "pages/deployService/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/selectRecord/index",
+          "pathName": "pages/selectRecord/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/sumRecordResult/index",
+          "pathName": "pages/sumRecordResult/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/updateRecord/index",
+          "pathName": "pages/updateRecord/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/updateRecordResult/index",
+          "pathName": "pages/updateRecordResult/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/updateRecordSuccess/index",
+          "pathName": "pages/updateRecordSuccess/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/paihang/paihang",
+          "pathName": "pages/paihang/paihang",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/secondhand/secondhand",
+          "pathName": "pages/secondhand/secondhand",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/second_fabu/second_fabu",
+          "pathName": "pages/second_fabu/second_fabu",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/secondhand/secondhand",
+          "pathName": "pages/secondhand/secondhand",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/secondhand/secondhand",
+          "pathName": "pages/secondhand/secondhand",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/pub_detail/pub_detail",
+          "pathName": "pages/pub_detail/pub_detail",
+          "query": "id=14139e12613af6500b55254a1f3d26fa",
+          "scene": null
+        },
+        {
+          "name": "pages/pingjia/pingjia",
+          "pathName": "pages/pingjia/pingjia",
+          "query": "publish_id=2d44d6c261469ad60dbeb0d7708a84ec",
+          "scene": null
+        },
+        {
+          "name": "pages/chakan_pingjia/chakan_pingjia",
+          "pathName": "pages/chakan_pingjia/chakan_pingjia",
+          "query": "publish_id=2d44d6c261469ad60dbeb0d7708a84ec",
+          "scene": null
+        },
+        {
+          "name": "pages/yijian/yijian",
+          "pathName": "pages/yijian/yijian",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/paihang/paihang",
+          "pathName": "pages/paihang/paihang",
+          "query": "id=%E5%B7%B2%E8%AE%A4%E8%AF%81",
+          "scene": null
+        }
+      ]
+    }
+  }
+}

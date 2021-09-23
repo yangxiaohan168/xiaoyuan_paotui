@@ -1,0 +1,104 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/my/my",
+    "pages/publish/publish",
+    "pages/order/order",
+    "pages/detail/detail",
+    "pages/fabu/fabu",
+    "pages/kefu/kefu",
+    "pages/apply/apply",
+    "pages/dizhi/dizhi",
+    "pages/parse/parse",
+    "pages/recharge/recharge",
+    "pages/reflect/reflect",
+    "pages/qu/qu",
+    "pages/mai/mai",
+    "pages/song/song",
+    "pages/other/other",
+    "pages/secondhand/secondhand",
+    "pages/paihang/paihang",
+    "pages/second_fabu/second_fabu",
+    "pages/pub_detail/pub_detail",
+    "pages/pingjia/pingjia",
+    "pages/chakan_pingjia/chakan_pingjia",
+    "pages/yijian/yijian"
+  ],
+  "window": {
+    "backgroundColor": "#F6F6F6",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#F6F6F6",
+    "navigationBarTitleText": "优我帮",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#80848f",
+    "selectedColor": "#2d8cf0",
+    "borderStyle": "white",
+    "list": [
+      {
+        "text": "首页",
+        "pagePath": "pages/index/index",
+        "iconPath": "images/index.png",
+        "selectedIconPath": "images/index2.png"
+      },
+      {
+        "text": "接单大厅",
+        "pagePath": "pages/publish/publish",
+        "iconPath": "images/publish.png",
+        "selectedIconPath": "images/publish2.png"
+      },
+      {
+        "text": "我的发布",
+        "pagePath": "pages/fabu/fabu",
+        "iconPath": "images/fabu.png",
+        "selectedIconPath": "images/fabu2.png"
+      },
+      {
+        "text": "我的接单",
+        "pagePath": "pages/order/order",
+        "iconPath": "images/order.png",
+        "selectedIconPath": "images/order2.png"
+      },
+      {
+        "text": "我的",
+        "pagePath": "pages/my/my",
+        "iconPath": "images/my.png",
+        "selectedIconPath": "images/my2.png"
+      }
+    ]
+  },
+  "usingComponents": {
+    "van-field": "vant/field/index",
+    "van-popup": "vant/popup/index",
+    "van-area": "vant/area/index",
+    "van-cell": "vant/cell/index",
+    "van-cell-group": "vant/cell-group/index",
+    "van-action-sheet": "vant/action-sheet/index",
+    "van-search": "vant/search/index",
+    "van-picker": "vant/picker/index",
+    "van-datetime-picker": "vant/datetime-picker/index",
+    "van-uploader": "vant/uploader/index",
+    "van-notice-bar": "vant/notice-bar/index",
+    "van-icon": "vant/icon/index",
+    "van-tab": "vant/tab/index",
+    "van-tabs": "vant/tabs/index",
+    "van-empty": "vant/empty/index",
+    "van-button": "vant/button/index",
+    "van-switch": "vant/switch/index",
+    "van-submit-bar": "vant/submit-bar/index",
+    "van-radio": "vant/radio/index",
+    "van-radio-group": "vant/radio-group/index",
+    "van-slider": "vant/slider/index",
+    "van-dropdown-menu": "vant/dropdown-menu/index",
+    "van-dropdown-item": "vant/dropdown-item/index",
+    "van-rate": "vant/rate/index"
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序定位"
+    }
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2"
+}

@@ -1,0 +1,1121 @@
+<!--pages/fabu/fabu.wxml-->
+<wxs src="../../common.wxs" module="morejs" />
+<van-tabs active="{{ active }}" bind:change="onChange" custom-class="wen">
+  <van-tab title="全部">
+    <block wx:if="{{list.length!==0}}" wx:for="{{list}}" wx:key="index">
+              <!--其他跑腿订单-->
+              <view wx:if="{{item.category=='其他跑腿'}}" class="dingdan">
+                 <view class="dingdan_top">
+                     <view class="dingdan_top1">
+                          <view style="width: 10%;">{{index+1}}、</view>
+                          <image style="width: 50rpx;height: 50rpx;margin-left: 20rpx;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/else.png?sign=ac7752225ccd23667eccf44a4139a1de&t=1631359659"></image>
+                     </view>
+                     <view>
+                         <text>{{morejs.timelog(item.creat)}}发布</text>
+                     </view>
+                     <view style="color: red;">{{item.yuanjia}}元</view>
+                 </view>
+                 <view class="dingdan_center">
+                      <view class="dingdan_centermai">
+                           <view class="dingdan_centernotes"><view style="width: 50%;display: flex;justify-content: flex-end; background-color: white;overflow: hidden;margin-left: 20%;">{{item.notes}}</view><view>...</view></view>
+                           
+                      </view>
+                
+                      <text>↓</text>
+                      
+                      <view>
+                          {{item.end_location}}
+                      </view>
+                 </view>
+                 <view class="dingdan_bottom">
+                        <van-button wx:if="{{item.state==1}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待接单</van-button>
+                        <van-button wx:if="{{item.state==2}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">配送中</van-button>
+                        <van-button wx:if="{{item.state==5}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待确认</van-button>
+                        <van-button wx:if="{{item.state==3}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已完成</van-button>
+                        <van-button wx:if="{{item.state==4}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已取消</van-button>
+                        
+                 </view>
+                 <view class="bottom" wx:if="{{anniu_show!==index}}">
+                          <van-button wx:if="{{item.state==1}}" size="mini" bind:click="cancel_order" data-anniu_show="{{index}}" data-id="{{item._id}}" data-yuanjia="{{item.yuanjia}}" data-_openid="{{item._openid}}" custom-style="width:150rpx;" round type="danger">取消订单</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2&&!item.cui}}" size="mini" bind:click="cui" data-id="{{item._id}}"  custom-style="width:150rpx;"  round type="danger">催一催</van-button>
+                          <van-button wx:if="{{item.state==2&&item.cui}}" size="mini" custom-style="width:150rpx;"  round type="default">已催过</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2||item.state==5}}" size="mini" bind:click="call_phone" data-id="{{item._id}}" custom-style="width:150rpx;margin-left:20rpx;margin-right:20rpx;" round type="primary">联系跑腿员</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==5}}" size="mini" bind:click="confirm_songda" data-id="{{item._id}}" data-cost="{{item.cost}}" data-order_id="{{item.order_id}}" custom-style="width:150rpx;" round type="danger">确认送达</van-button>
+                          <van-button wx:if="{{item.state==3}}" size="mini" bind:click="chakan_pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="primary">查看评价</van-button>
+                          <van-button wx:if="{{item.state==3&&!item.pingjia}}" size="mini" bind:click="pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;margin-left:10rpx;" round type="primary">评价</van-button>
+                          <van-button wx:if="{{item.state==3&&item.pingjia}}" size="mini"  custom-style="width:150rpx;margin-left:10rpx;" round type="default">已评</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==3||item.state==4}}" size="mini" bind:click="delete_order" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="danger">删除订单</van-button>
+                 </view>
+              </view>
+              <!--帮我买-->
+              <view wx:if="{{item.category=='帮我买'}}" class="dingdan">
+                 <view class="dingdan_top">
+                     <view class="dingdan_top1">
+                          <view style="width: 10%;">{{index+1}}、</view>
+                          <image style="width: 50rpx;height: 50rpx;margin-left: 20rpx;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/mai.png?sign=41e514a9e78de86b6359f634cdd4351a&t=1631280757"></image>
+                     </view>
+                     <view>
+                         <text>{{morejs.timelog(item.creat)}}发布</text>
+                     </view>
+                     <view style="color: red;">{{item.yuanjia}}元</view>
+                 </view>
+                 <view class="dingdan_center">
+                      <view class="dingdan_centerleft">
+                           <view class="dingdan_centermai"><view style="width: 80%;white-space: nowrap; background-color: white;overflow: hidden;">{{item.notes}}</view><view>...</view></view>
+                      </view>
+                      <view wx:if="{{item.mai_location=='请选择购买地点'}}">（就近购买）</view>
+                      <view style="width: 95%;display: flex;justify-content: center; align-items: center;" wx:if="{{item.mai_location!=='请选择购买地点'}}">（{{item.mai_location}}）</view>
+                      <text>↓</text>
+                      
+                      <view>
+                          {{item.end_location}}
+                      </view>
+                 </view>
+                 <view class="dingdan_bottom">
+                        <van-button wx:if="{{item.state==1}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待接单</van-button>
+                        <van-button wx:if="{{item.state==2}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">配送中</van-button>
+                        <van-button wx:if="{{item.state==5}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待确认</van-button>
+                        <van-button wx:if="{{item.state==3}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已完成</van-button>
+                        <van-button wx:if="{{item.state==4}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已取消</van-button>
+                        
+                 </view>
+                 <view class="bottom" wx:if="{{anniu_show!==index}}">
+                          <van-button wx:if="{{item.state==1}}" size="mini" bind:click="cancel_order" data-anniu_show="{{index}}" data-id="{{item._id}}" data-yuanjia="{{item.yuanjia}}" data-_openid="{{item._openid}}" custom-style="width:150rpx;" round type="danger">取消订单</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2&&!item.cui}}" size="mini" bind:click="cui" data-id="{{item._id}}"  custom-style="width:150rpx;"  round type="danger">催一催</van-button>
+                          <van-button wx:if="{{item.state==2&&item.cui}}" size="mini" custom-style="width:150rpx;"  round type="default">已催过</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2||item.state==5}}" size="mini" bind:click="call_phone" data-id="{{item._id}}" custom-style="width:150rpx;margin-left:20rpx;margin-right:20rpx;" round type="primary">联系跑腿员</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==5}}" size="mini" bind:click="confirm_songda" data-id="{{item._id}}" data-cost="{{item.cost}}" data-order_id="{{item.order_id}}" custom-style="width:150rpx;" round type="danger">确认送达</van-button>
+                          <van-button wx:if="{{item.state==3}}" size="mini" bind:click="chakan_pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="primary">查看评价</van-button>
+                          <van-button wx:if="{{item.state==3&&!item.pingjia}}" size="mini" bind:click="pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;margin-left:10rpx;" round type="primary">评价</van-button>
+                          <van-button wx:if="{{item.state==3&&item.pingjia}}" size="mini"  custom-style="width:150rpx;margin-left:10rpx;" round type="default">已评</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==3||item.state==4}}" size="mini" bind:click="delete_order" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="danger">删除订单</van-button>
+                 </view>
+              </view>
+              <!--帮我送-->
+              <view wx:if="{{item.category=='帮我送'}}" class="dingdan">
+                 <view class="dingdan_top">
+                     <view class="dingdan_top1">
+                          <view style="width: 10%;">{{index+1}}、</view>
+                          <image style="width: 50rpx;height: 50rpx;margin-left: 20rpx;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/songla.png?sign=0978a0aefa81e7e2ebea53813ac65a2b&t=1631328457"></image>
+                     </view>
+                     <view>
+                         <text>{{morejs.timelog(item.creat)}}发布</text>
+                     </view>
+                     <view style="color: red;">{{item.cost}}元</view>
+                 </view>
+                 <view class="dingdan_center">
+                      <view class="dingdan_centerleft">
+                           <view>{{item.start_location}}</view>
+                           
+                          
+                      </view>
+                
+                      <text>↓</text>
+                      
+                      <view>
+                          {{item.end_location}}
+                      </view>
+                 </view>
+                 <view class="dingdan_bottom">
+                        <van-button wx:if="{{item.state==1}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待接单</van-button>
+                        <van-button wx:if="{{item.state==2}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">配送中</van-button>
+                        <van-button wx:if="{{item.state==5}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待确认</van-button>
+                        <van-button wx:if="{{item.state==3}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已完成</van-button>
+                        <van-button wx:if="{{item.state==4}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已取消</van-button>
+                        
+                 </view>
+                 <view class="bottom" wx:if="{{anniu_show!==index}}">
+                          <van-button wx:if="{{item.state==1}}" size="mini" bind:click="cancel_order" data-anniu_show="{{index}}" data-id="{{item._id}}" data-yuanjia="{{item.yuanjia}}" data-_openid="{{item._openid}}" custom-style="width:150rpx;" round type="danger">取消订单</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2&&!item.cui}}" size="mini" bind:click="cui" data-id="{{item._id}}"  custom-style="width:150rpx;"  round type="danger">催一催</van-button>
+                          <van-button wx:if="{{item.state==2&&item.cui}}" size="mini" custom-style="width:150rpx;"  round type="default">已催过</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2||item.state==5}}" size="mini" bind:click="call_phone" data-id="{{item._id}}" custom-style="width:150rpx;margin-left:20rpx;margin-right:20rpx;" round type="primary">联系跑腿员</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==5}}" size="mini" bind:click="confirm_songda" data-id="{{item._id}}" data-cost="{{item.cost}}" data-order_id="{{item.order_id}}" custom-style="width:150rpx;" round type="danger">确认送达</van-button>
+                          <van-button wx:if="{{item.state==3}}" size="mini" bind:click="chakan_pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="primary">查看评价</van-button>
+                          <van-button wx:if="{{item.state==3&&!item.pingjia}}" size="mini" bind:click="pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;margin-left:10rpx;" round type="primary">评价</van-button>
+                          <van-button wx:if="{{item.state==3&&item.pingjia}}" size="mini"  custom-style="width:150rpx;margin-left:10rpx;" round type="default">已评</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==3||item.state==4}}" size="mini" bind:click="delete_order" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="danger">删除订单</van-button>
+                 </view>
+              </view>
+              <!--帮我取-->
+              <view wx:if="{{item.category=='帮我取'}}" class="dingdan">
+                 <view class="dingdan_top">
+                     <view class="dingdan_top1">
+                          <view style="width: 10%;">{{index+1}}、</view>
+                          <image style="width: 50rpx;height: 50rpx;margin-left: 20rpx;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/qu.png?sign=73dd07dfb283a347b03aca73ff51de8c&t=1631329366"></image>
+                     </view>
+                     <view>
+                         <text>{{morejs.timelog(item.creat)}}发布</text>
+                     </view>
+                     <view style="color: red;">{{item.cost}}元</view>
+                 </view>
+                 <view class="dingdan_center">
+                      <view class="dingdan_centerleft">
+                           <view>{{item.start_location}}</view>
+                           
+                          
+                      </view>
+                
+                      <text>↓</text>
+                      
+                      <view>
+                          {{item.end_location}}
+                      </view>
+                 </view>
+                 <view class="dingdan_bottom">
+                        <van-button wx:if="{{item.state==1}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待接单</van-button>
+                        <van-button wx:if="{{item.state==2}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">配送中</van-button>
+                        <van-button wx:if="{{item.state==5}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待确认</van-button>
+                        <van-button wx:if="{{item.state==3}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已完成</van-button>
+                        <van-button wx:if="{{item.state==4}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已取消</van-button>
+                 </view>
+                 <view class="bottom" wx:if="{{anniu_show!==index}}">
+                          <van-button wx:if="{{item.state==1}}" size="mini" bind:click="cancel_order" data-anniu_show="{{index}}" data-id="{{item._id}}" data-yuanjia="{{item.yuanjia}}" data-_openid="{{item._openid}}" custom-style="width:150rpx;" round type="danger">取消订单</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2&&!item.cui}}" size="mini" bind:click="cui" data-id="{{item._id}}"  custom-style="width:150rpx;"  round type="danger">催一催</van-button>
+                          <van-button wx:if="{{item.state==2&&item.cui}}" size="mini" custom-style="width:150rpx;"  round type="default">已催过</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2||item.state==5}}" size="mini" bind:click="call_phone" data-id="{{item._id}}" custom-style="width:150rpx;margin-left:20rpx;margin-right:20rpx;" round type="primary">联系跑腿员</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==5}}" size="mini" bind:click="confirm_songda" data-id="{{item._id}}" data-cost="{{item.cost}}" data-order_id="{{item.order_id}}" custom-style="width:150rpx;" round type="danger">确认送达</van-button>
+                          <van-button wx:if="{{item.state==3}}" size="mini" bind:click="chakan_pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="primary">查看评价</van-button>
+                          <van-button wx:if="{{item.state==3&&!item.pingjia}}" size="mini" bind:click="pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;margin-left:10rpx;" round type="primary">评价</van-button>
+                          <van-button wx:if="{{item.state==3&&item.pingjia}}" size="mini"  custom-style="width:150rpx;margin-left:10rpx;" round type="default">已评</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==3||item.state==4}}" size="mini" bind:click="delete_order" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="danger">删除订单</van-button>
+                 </view>
+              </view>
+              
+            </block>
+            <block wx:if="{{list.length==0}}">
+                  <van-empty description="空空如也" />
+            </block>
+        
+  </van-tab>
+  <van-tab title="待接单">
+    <block wx:if="{{list.length!==0}}" wx:for="{{list}}" wx:key="index">
+              <!--其他跑腿订单-->
+              <view wx:if="{{item.category=='其他跑腿'}}" class="dingdan">
+                 <view class="dingdan_top">
+                     <view class="dingdan_top1">
+                          <view style="width: 10%;">{{index+1}}、</view>
+                          <image style="width: 50rpx;height: 50rpx;margin-left: 20rpx;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/else.png?sign=ac7752225ccd23667eccf44a4139a1de&t=1631359659"></image>
+                     </view>
+                     <view>
+                         <text>{{morejs.timelog(item.creat)}}发布</text>
+                     </view>
+                     <view style="color: red;">{{item.yuanjia}}元</view>
+                 </view>
+                 <view class="dingdan_center">
+                      <view class="dingdan_centermai">
+                           <view class="dingdan_centernotes"><view style="width: 50%;display: flex;justify-content: flex-end; background-color: white;overflow: hidden;margin-left: 20%;">{{item.notes}}</view><view>...</view></view>
+                           
+                      </view>
+                
+                      <text>↓</text>
+                      
+                      <view>
+                          {{item.end_location}}
+                      </view>
+                 </view>
+                 <view class="dingdan_bottom">
+                        <van-button wx:if="{{item.state==1}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待接单</van-button>
+                        <van-button wx:if="{{item.state==2}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">配送中</van-button>
+                        <van-button wx:if="{{item.state==5}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待确认</van-button>
+                        <van-button wx:if="{{item.state==3}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已完成</van-button>
+                        <van-button wx:if="{{item.state==4}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已取消</van-button>
+                        
+                 </view>
+                 <view class="bottom" wx:if="{{anniu_show!==index}}">
+                          <van-button wx:if="{{item.state==1}}" size="mini" bind:click="cancel_order" data-anniu_show="{{index}}" data-id="{{item._id}}" data-yuanjia="{{item.yuanjia}}" data-_openid="{{item._openid}}" custom-style="width:150rpx;" round type="danger">取消订单</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2&&!item.cui}}" size="mini" bind:click="cui" data-id="{{item._id}}"  custom-style="width:150rpx;"  round type="danger">催一催</van-button>
+                          <van-button wx:if="{{item.state==2&&item.cui}}" size="mini" custom-style="width:150rpx;"  round type="default">已催过</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2||item.state==5}}" size="mini" bind:click="call_phone" data-id="{{item._id}}" custom-style="width:150rpx;margin-left:20rpx;margin-right:20rpx;" round type="primary">联系跑腿员</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==5}}" size="mini" bind:click="confirm_songda" data-id="{{item._id}}" data-cost="{{item.cost}}" data-order_id="{{item.order_id}}" custom-style="width:150rpx;" round type="danger">确认送达</van-button>
+                          <van-button wx:if="{{item.state==3}}" size="mini" bind:click="chakan_pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="primary">查看评价</van-button>
+                          <van-button wx:if="{{item.state==3&&!item.pingjia}}" size="mini" bind:click="pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;margin-left:10rpx;" round type="primary">评价</van-button>
+                          <van-button wx:if="{{item.state==3&&item.pingjia}}" size="mini"  custom-style="width:150rpx;margin-left:10rpx;" round type="default">已评</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==3||item.state==4}}" size="mini" bind:click="delete_order" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="danger">删除订单</van-button>
+                 </view>
+              </view>
+              <!--帮我买-->
+              <view wx:if="{{item.category=='帮我买'}}" class="dingdan">
+                 <view class="dingdan_top">
+                     <view class="dingdan_top1">
+                          <view style="width: 10%;">{{index+1}}、</view>
+                          <image style="width: 50rpx;height: 50rpx;margin-left: 20rpx;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/mai.png?sign=41e514a9e78de86b6359f634cdd4351a&t=1631280757"></image>
+                     </view>
+                     <view>
+                         <text>{{morejs.timelog(item.creat)}}发布</text>
+                     </view>
+                     <view style="color: red;">{{item.yuanjia}}元</view>
+                 </view>
+                 <view class="dingdan_center">
+                      <view class="dingdan_centerleft">
+                           <view class="dingdan_centermai"><view style="width: 80%;white-space: nowrap; background-color: white;overflow: hidden;">{{item.notes}}</view><view>...</view></view>
+                      </view>
+                      <view wx:if="{{item.mai_location=='请选择购买地点'}}">（就近购买）</view>
+                      <view style="width: 95%;display: flex;justify-content: center; align-items: center;" wx:if="{{item.mai_location!=='请选择购买地点'}}">（{{item.mai_location}}）</view>
+                      <text>↓</text>
+                      
+                      <view>
+                          {{item.end_location}}
+                      </view>
+                 </view>
+                 <view class="dingdan_bottom">
+                        <van-button wx:if="{{item.state==1}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待接单</van-button>
+                        <van-button wx:if="{{item.state==2}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">配送中</van-button>
+                        <van-button wx:if="{{item.state==5}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待确认</van-button>
+                        <van-button wx:if="{{item.state==3}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已完成</van-button>
+                        <van-button wx:if="{{item.state==4}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已取消</van-button>
+                        
+                 </view>
+                 <view class="bottom" wx:if="{{anniu_show!==index}}">
+                          <van-button wx:if="{{item.state==1}}" size="mini" bind:click="cancel_order" data-anniu_show="{{index}}" data-id="{{item._id}}" data-yuanjia="{{item.yuanjia}}" data-_openid="{{item._openid}}" custom-style="width:150rpx;" round type="danger">取消订单</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2&&!item.cui}}" size="mini" bind:click="cui" data-id="{{item._id}}"  custom-style="width:150rpx;"  round type="danger">催一催</van-button>
+                          <van-button wx:if="{{item.state==2&&item.cui}}" size="mini" custom-style="width:150rpx;"  round type="default">已催过</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2||item.state==5}}" size="mini" bind:click="call_phone" data-id="{{item._id}}" custom-style="width:150rpx;margin-left:20rpx;margin-right:20rpx;" round type="primary">联系跑腿员</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==5}}" size="mini" bind:click="confirm_songda" data-id="{{item._id}}" data-cost="{{item.cost}}" data-order_id="{{item.order_id}}" custom-style="width:150rpx;" round type="danger">确认送达</van-button>
+                          <van-button wx:if="{{item.state==3}}" size="mini" bind:click="chakan_pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="primary">查看评价</van-button>
+                          <van-button wx:if="{{item.state==3&&!item.pingjia}}" size="mini" bind:click="pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;margin-left:10rpx;" round type="primary">评价</van-button>
+                          <van-button wx:if="{{item.state==3&&item.pingjia}}" size="mini"  custom-style="width:150rpx;margin-left:10rpx;" round type="default">已评</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==3||item.state==4}}" size="mini" bind:click="delete_order" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="danger">删除订单</van-button>
+                 </view>
+              </view>
+              <!--帮我送-->
+              <view wx:if="{{item.category=='帮我送'}}" class="dingdan">
+                 <view class="dingdan_top">
+                     <view class="dingdan_top1">
+                          <view style="width: 10%;">{{index+1}}、</view>
+                          <image style="width: 50rpx;height: 50rpx;margin-left: 20rpx;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/songla.png?sign=0978a0aefa81e7e2ebea53813ac65a2b&t=1631328457"></image>
+                     </view>
+                     <view>
+                         <text>{{morejs.timelog(item.creat)}}发布</text>
+                     </view>
+                     <view style="color: red;">{{item.cost}}元</view>
+                 </view>
+                 <view class="dingdan_center">
+                      <view class="dingdan_centerleft">
+                           <view>{{item.start_location}}</view>
+                           
+                          
+                      </view>
+                
+                      <text>↓</text>
+                      
+                      <view>
+                          {{item.end_location}}
+                      </view>
+                 </view>
+                 <view class="dingdan_bottom">
+                        <van-button wx:if="{{item.state==1}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待接单</van-button>
+                        <van-button wx:if="{{item.state==2}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">配送中</van-button>
+                        <van-button wx:if="{{item.state==5}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待确认</van-button>
+                        <van-button wx:if="{{item.state==3}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已完成</van-button>
+                        <van-button wx:if="{{item.state==4}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已取消</van-button>
+                        
+                 </view>
+                 <view class="bottom" wx:if="{{anniu_show!==index}}">
+                          <van-button wx:if="{{item.state==1}}" size="mini" bind:click="cancel_order" data-anniu_show="{{index}}" data-id="{{item._id}}" data-yuanjia="{{item.yuanjia}}" data-_openid="{{item._openid}}" custom-style="width:150rpx;" round type="danger">取消订单</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2&&!item.cui}}" size="mini" bind:click="cui" data-id="{{item._id}}"  custom-style="width:150rpx;"  round type="danger">催一催</van-button>
+                          <van-button wx:if="{{item.state==2&&item.cui}}" size="mini" custom-style="width:150rpx;"  round type="default">已催过</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2||item.state==5}}" size="mini" bind:click="call_phone" data-id="{{item._id}}" custom-style="width:150rpx;margin-left:20rpx;margin-right:20rpx;" round type="primary">联系跑腿员</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==5}}" size="mini" bind:click="confirm_songda" data-id="{{item._id}}" data-cost="{{item.cost}}" data-order_id="{{item.order_id}}" custom-style="width:150rpx;" round type="danger">确认送达</van-button>
+                          <van-button wx:if="{{item.state==3}}" size="mini" bind:click="chakan_pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="primary">查看评价</van-button>
+                          <van-button wx:if="{{item.state==3&&!item.pingjia}}" size="mini" bind:click="pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;margin-left:10rpx;" round type="primary">评价</van-button>
+                          <van-button wx:if="{{item.state==3&&item.pingjia}}" size="mini"  custom-style="width:150rpx;margin-left:10rpx;" round type="default">已评</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==3||item.state==4}}" size="mini" bind:click="delete_order" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="danger">删除订单</van-button>
+                 </view>
+              </view>
+              <!--帮我取-->
+              <view wx:if="{{item.category=='帮我取'}}" class="dingdan">
+                 <view class="dingdan_top">
+                     <view class="dingdan_top1">
+                          <view style="width: 10%;">{{index+1}}、</view>
+                          <image style="width: 50rpx;height: 50rpx;margin-left: 20rpx;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/qu.png?sign=73dd07dfb283a347b03aca73ff51de8c&t=1631329366"></image>
+                     </view>
+                     <view>
+                         <text>{{morejs.timelog(item.creat)}}发布</text>
+                     </view>
+                     <view style="color: red;">{{item.cost}}元</view>
+                 </view>
+                 <view class="dingdan_center">
+                      <view class="dingdan_centerleft">
+                           <view>{{item.start_location}}</view>
+                           
+                          
+                      </view>
+                
+                      <text>↓</text>
+                      
+                      <view>
+                          {{item.end_location}}
+                      </view>
+                 </view>
+                 <view class="dingdan_bottom">
+                        <van-button wx:if="{{item.state==1}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待接单</van-button>
+                        <van-button wx:if="{{item.state==2}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">配送中</van-button>
+                        <van-button wx:if="{{item.state==5}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待确认</van-button>
+                        <van-button wx:if="{{item.state==3}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已完成</van-button>
+                        <van-button wx:if="{{item.state==4}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已取消</van-button>
+                 </view>
+                 <view class="bottom" wx:if="{{anniu_show!==index}}">
+                          <van-button wx:if="{{item.state==1}}" size="mini" bind:click="cancel_order" data-anniu_show="{{index}}" data-id="{{item._id}}" data-yuanjia="{{item.yuanjia}}" data-_openid="{{item._openid}}" custom-style="width:150rpx;" round type="danger">取消订单</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2&&!item.cui}}" size="mini" bind:click="cui" data-id="{{item._id}}"  custom-style="width:150rpx;"  round type="danger">催一催</van-button>
+                          <van-button wx:if="{{item.state==2&&item.cui}}" size="mini" custom-style="width:150rpx;"  round type="default">已催过</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2||item.state==5}}" size="mini" bind:click="call_phone" data-id="{{item._id}}" custom-style="width:150rpx;margin-left:20rpx;margin-right:20rpx;" round type="primary">联系跑腿员</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==5}}" size="mini" bind:click="confirm_songda" data-id="{{item._id}}" data-cost="{{item.cost}}" data-order_id="{{item.order_id}}" custom-style="width:150rpx;" round type="danger">确认送达</van-button>
+                          <van-button wx:if="{{item.state==3}}" size="mini" bind:click="chakan_pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="primary">查看评价</van-button>
+                          <van-button wx:if="{{item.state==3&&!item.pingjia}}" size="mini" bind:click="pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;margin-left:10rpx;" round type="primary">评价</van-button>
+                          <van-button wx:if="{{item.state==3&&item.pingjia}}" size="mini"  custom-style="width:150rpx;margin-left:10rpx;" round type="default">已评</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==3||item.state==4}}" size="mini" bind:click="delete_order" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="danger">删除订单</van-button>
+                 </view>
+              </view>
+              
+            </block>
+            <block wx:if="{{list.length==0}}">
+                  <van-empty description="空空如也" />
+            </block>
+        
+  </van-tab>
+  <van-tab title="配送中">
+    <block wx:if="{{list.length!==0}}" wx:for="{{list}}" wx:key="index">
+              <!--其他跑腿订单-->
+              <view wx:if="{{item.category=='其他跑腿'}}" class="dingdan">
+                 <view class="dingdan_top">
+                     <view class="dingdan_top1">
+                          <view style="width: 10%;">{{index+1}}、</view>
+                          <image style="width: 50rpx;height: 50rpx;margin-left: 20rpx;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/else.png?sign=ac7752225ccd23667eccf44a4139a1de&t=1631359659"></image>
+                     </view>
+                     <view>
+                         <text>{{morejs.timelog(item.creat)}}发布</text>
+                     </view>
+                     <view style="color: red;">{{item.yuanjia}}元</view>
+                 </view>
+                 <view class="dingdan_center">
+                      <view class="dingdan_centermai">
+                           <view class="dingdan_centernotes"><view style="width: 50%;display: flex;justify-content: flex-end; background-color: white;overflow: hidden;margin-left: 20%;">{{item.notes}}</view><view>...</view></view>
+                           
+                      </view>
+                
+                      <text>↓</text>
+                      
+                      <view>
+                          {{item.end_location}}
+                      </view>
+                 </view>
+                 <view class="dingdan_bottom">
+                        <van-button wx:if="{{item.state==1}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待接单</van-button>
+                        <van-button wx:if="{{item.state==2}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">配送中</van-button>
+                        <van-button wx:if="{{item.state==5}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待确认</van-button>
+                        <van-button wx:if="{{item.state==3}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已完成</van-button>
+                        <van-button wx:if="{{item.state==4}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已取消</van-button>
+                        
+                 </view>
+                 <view class="bottom" wx:if="{{anniu_show!==index}}">
+                          <van-button wx:if="{{item.state==1}}" size="mini" bind:click="cancel_order" data-anniu_show="{{index}}" data-id="{{item._id}}" data-yuanjia="{{item.yuanjia}}" data-_openid="{{item._openid}}" custom-style="width:150rpx;" round type="danger">取消订单</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2&&!item.cui}}" size="mini" bind:click="cui" data-id="{{item._id}}"  custom-style="width:150rpx;"  round type="danger">催一催</van-button>
+                          <van-button wx:if="{{item.state==2&&item.cui}}" size="mini" custom-style="width:150rpx;"  round type="default">已催过</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2||item.state==5}}" size="mini" bind:click="call_phone" data-id="{{item._id}}" custom-style="width:150rpx;margin-left:20rpx;margin-right:20rpx;" round type="primary">联系跑腿员</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==5}}" size="mini" bind:click="confirm_songda" data-id="{{item._id}}" data-cost="{{item.cost}}" data-order_id="{{item.order_id}}" custom-style="width:150rpx;" round type="danger">确认送达</van-button>
+                          <van-button wx:if="{{item.state==3}}" size="mini" bind:click="chakan_pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="primary">查看评价</van-button>
+                          <van-button wx:if="{{item.state==3&&!item.pingjia}}" size="mini" bind:click="pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;margin-left:10rpx;" round type="primary">评价</van-button>
+                          <van-button wx:if="{{item.state==3&&item.pingjia}}" size="mini"  custom-style="width:150rpx;margin-left:10rpx;" round type="default">已评</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==3||item.state==4}}" size="mini" bind:click="delete_order" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="danger">删除订单</van-button>
+                 </view>
+              </view>
+              <!--帮我买-->
+              <view wx:if="{{item.category=='帮我买'}}" class="dingdan">
+                 <view class="dingdan_top">
+                     <view class="dingdan_top1">
+                          <view style="width: 10%;">{{index+1}}、</view>
+                          <image style="width: 50rpx;height: 50rpx;margin-left: 20rpx;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/mai.png?sign=41e514a9e78de86b6359f634cdd4351a&t=1631280757"></image>
+                     </view>
+                     <view>
+                         <text>{{morejs.timelog(item.creat)}}发布</text>
+                     </view>
+                     <view style="color: red;">{{item.yuanjia}}元</view>
+                 </view>
+                 <view class="dingdan_center">
+                      <view class="dingdan_centerleft">
+                           <view class="dingdan_centermai"><view style="width: 80%;white-space: nowrap; background-color: white;overflow: hidden;">{{item.notes}}</view><view>...</view></view>
+                      </view>
+                      <view wx:if="{{item.mai_location=='请选择购买地点'}}">（就近购买）</view>
+                      <view style="width: 95%;display: flex;justify-content: center; align-items: center;" wx:if="{{item.mai_location!=='请选择购买地点'}}">（{{item.mai_location}}）</view>
+                      <text>↓</text>
+                      
+                      <view>
+                          {{item.end_location}}
+                      </view>
+                 </view>
+                 <view class="dingdan_bottom">
+                        <van-button wx:if="{{item.state==1}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待接单</van-button>
+                        <van-button wx:if="{{item.state==2}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">配送中</van-button>
+                        <van-button wx:if="{{item.state==5}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待确认</van-button>
+                        <van-button wx:if="{{item.state==3}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已完成</van-button>
+                        <van-button wx:if="{{item.state==4}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已取消</van-button>
+                        
+                 </view>
+                 <view class="bottom" wx:if="{{anniu_show!==index}}">
+                          <van-button wx:if="{{item.state==1}}" size="mini" bind:click="cancel_order" data-anniu_show="{{index}}" data-id="{{item._id}}" data-yuanjia="{{item.yuanjia}}" data-_openid="{{item._openid}}" custom-style="width:150rpx;" round type="danger">取消订单</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2&&!item.cui}}" size="mini" bind:click="cui" data-id="{{item._id}}"  custom-style="width:150rpx;"  round type="danger">催一催</van-button>
+                          <van-button wx:if="{{item.state==2&&item.cui}}" size="mini" custom-style="width:150rpx;"  round type="default">已催过</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2||item.state==5}}" size="mini" bind:click="call_phone" data-id="{{item._id}}" custom-style="width:150rpx;margin-left:20rpx;margin-right:20rpx;" round type="primary">联系跑腿员</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==5}}" size="mini" bind:click="confirm_songda" data-id="{{item._id}}" data-cost="{{item.cost}}" data-order_id="{{item.order_id}}" custom-style="width:150rpx;" round type="danger">确认送达</van-button>
+                          <van-button wx:if="{{item.state==3}}" size="mini" bind:click="chakan_pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="primary">查看评价</van-button>
+                          <van-button wx:if="{{item.state==3&&!item.pingjia}}" size="mini" bind:click="pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;margin-left:10rpx;" round type="primary">评价</van-button>
+                          <van-button wx:if="{{item.state==3&&item.pingjia}}" size="mini"  custom-style="width:150rpx;margin-left:10rpx;" round type="default">已评</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==3||item.state==4}}" size="mini" bind:click="delete_order" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="danger">删除订单</van-button>
+                 </view>
+              </view>
+              <!--帮我送-->
+              <view wx:if="{{item.category=='帮我送'}}" class="dingdan">
+                 <view class="dingdan_top">
+                     <view class="dingdan_top1">
+                          <view style="width: 10%;">{{index+1}}、</view>
+                          <image style="width: 50rpx;height: 50rpx;margin-left: 20rpx;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/songla.png?sign=0978a0aefa81e7e2ebea53813ac65a2b&t=1631328457"></image>
+                     </view>
+                     <view>
+                         <text>{{morejs.timelog(item.creat)}}发布</text>
+                     </view>
+                     <view style="color: red;">{{item.cost}}元</view>
+                 </view>
+                 <view class="dingdan_center">
+                      <view class="dingdan_centerleft">
+                           <view>{{item.start_location}}</view>
+                           
+                          
+                      </view>
+                
+                      <text>↓</text>
+                      
+                      <view>
+                          {{item.end_location}}
+                      </view>
+                 </view>
+                 <view class="dingdan_bottom">
+                        <van-button wx:if="{{item.state==1}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待接单</van-button>
+                        <van-button wx:if="{{item.state==2}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">配送中</van-button>
+                        <van-button wx:if="{{item.state==5}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待确认</van-button>
+                        <van-button wx:if="{{item.state==3}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已完成</van-button>
+                        <van-button wx:if="{{item.state==4}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已取消</van-button>
+                        
+                 </view>
+                 <view class="bottom" wx:if="{{anniu_show!==index}}">
+                          <van-button wx:if="{{item.state==1}}" size="mini" bind:click="cancel_order" data-anniu_show="{{index}}" data-id="{{item._id}}" data-yuanjia="{{item.yuanjia}}" data-_openid="{{item._openid}}" custom-style="width:150rpx;" round type="danger">取消订单</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2&&!item.cui}}" size="mini" bind:click="cui" data-id="{{item._id}}"  custom-style="width:150rpx;"  round type="danger">催一催</van-button>
+                          <van-button wx:if="{{item.state==2&&item.cui}}" size="mini" custom-style="width:150rpx;"  round type="default">已催过</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2||item.state==5}}" size="mini" bind:click="call_phone" data-id="{{item._id}}" custom-style="width:150rpx;margin-left:20rpx;margin-right:20rpx;" round type="primary">联系跑腿员</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==5}}" size="mini" bind:click="confirm_songda" data-id="{{item._id}}" data-cost="{{item.cost}}" data-order_id="{{item.order_id}}" custom-style="width:150rpx;" round type="danger">确认送达</van-button>
+                          <van-button wx:if="{{item.state==3}}" size="mini" bind:click="chakan_pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="primary">查看评价</van-button>
+                          <van-button wx:if="{{item.state==3&&!item.pingjia}}" size="mini" bind:click="pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;margin-left:10rpx;" round type="primary">评价</van-button>
+                          <van-button wx:if="{{item.state==3&&item.pingjia}}" size="mini"  custom-style="width:150rpx;margin-left:10rpx;" round type="default">已评</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==3||item.state==4}}" size="mini" bind:click="delete_order" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="danger">删除订单</van-button>
+                 </view>
+              </view>
+              <!--帮我取-->
+              <view wx:if="{{item.category=='帮我取'}}" class="dingdan">
+                 <view class="dingdan_top">
+                     <view class="dingdan_top1">
+                          <view style="width: 10%;">{{index+1}}、</view>
+                          <image style="width: 50rpx;height: 50rpx;margin-left: 20rpx;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/qu.png?sign=73dd07dfb283a347b03aca73ff51de8c&t=1631329366"></image>
+                     </view>
+                     <view>
+                         <text>{{morejs.timelog(item.creat)}}发布</text>
+                     </view>
+                     <view style="color: red;">{{item.cost}}元</view>
+                 </view>
+                 <view class="dingdan_center">
+                      <view class="dingdan_centerleft">
+                           <view>{{item.start_location}}</view>
+                           
+                          
+                      </view>
+                
+                      <text>↓</text>
+                      
+                      <view>
+                          {{item.end_location}}
+                      </view>
+                 </view>
+                 <view class="dingdan_bottom">
+                        <van-button wx:if="{{item.state==1}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待接单</van-button>
+                        <van-button wx:if="{{item.state==2}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">配送中</van-button>
+                        <van-button wx:if="{{item.state==5}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待确认</van-button>
+                        <van-button wx:if="{{item.state==3}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已完成</van-button>
+                        <van-button wx:if="{{item.state==4}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已取消</van-button>
+                 </view>
+                 <view class="bottom" wx:if="{{anniu_show!==index}}">
+                          <van-button wx:if="{{item.state==1}}" size="mini" bind:click="cancel_order" data-anniu_show="{{index}}" data-id="{{item._id}}" data-yuanjia="{{item.yuanjia}}" data-_openid="{{item._openid}}" custom-style="width:150rpx;" round type="danger">取消订单</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2&&!item.cui}}" size="mini" bind:click="cui" data-id="{{item._id}}"  custom-style="width:150rpx;"  round type="danger">催一催</van-button>
+                          <van-button wx:if="{{item.state==2&&item.cui}}" size="mini" custom-style="width:150rpx;"  round type="default">已催过</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2||item.state==5}}" size="mini" bind:click="call_phone" data-id="{{item._id}}" custom-style="width:150rpx;margin-left:20rpx;margin-right:20rpx;" round type="primary">联系跑腿员</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==5}}" size="mini" bind:click="confirm_songda" data-id="{{item._id}}" data-cost="{{item.cost}}" data-order_id="{{item.order_id}}" custom-style="width:150rpx;" round type="danger">确认送达</van-button>
+                          <van-button wx:if="{{item.state==3}}" size="mini" bind:click="chakan_pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="primary">查看评价</van-button>
+                          <van-button wx:if="{{item.state==3&&!item.pingjia}}" size="mini" bind:click="pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;margin-left:10rpx;" round type="primary">评价</van-button>
+                          <van-button wx:if="{{item.state==3&&item.pingjia}}" size="mini"  custom-style="width:150rpx;margin-left:10rpx;" round type="default">已评</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==3||item.state==4}}" size="mini" bind:click="delete_order" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="danger">删除订单</van-button>
+                 </view>
+              </view>
+              
+            </block>
+            <block wx:if="{{list.length==0}}">
+                  <van-empty description="空空如也" />
+            </block>
+        
+  </van-tab>
+  <van-tab title="待确认">
+    <block wx:if="{{list.length!==0}}" wx:for="{{list}}" wx:key="index">
+              <!--其他跑腿订单-->
+              <view wx:if="{{item.category=='其他跑腿'}}" class="dingdan">
+                 <view class="dingdan_top">
+                     <view class="dingdan_top1">
+                          <view style="width: 10%;">{{index+1}}、</view>
+                          <image style="width: 50rpx;height: 50rpx;margin-left: 20rpx;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/else.png?sign=ac7752225ccd23667eccf44a4139a1de&t=1631359659"></image>
+                     </view>
+                     <view>
+                         <text>{{morejs.timelog(item.creat)}}发布</text>
+                     </view>
+                     <view style="color: red;">{{item.yuanjia}}元</view>
+                 </view>
+                 <view class="dingdan_center">
+                      <view class="dingdan_centermai">
+                           <view class="dingdan_centernotes"><view style="width: 50%;display: flex;justify-content: flex-end; background-color: white;overflow: hidden;margin-left: 20%;">{{item.notes}}</view><view>...</view></view>
+                           
+                      </view>
+                
+                      <text>↓</text>
+                      
+                      <view>
+                          {{item.end_location}}
+                      </view>
+                 </view>
+                 <view class="dingdan_bottom">
+                        <van-button wx:if="{{item.state==1}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待接单</van-button>
+                        <van-button wx:if="{{item.state==2}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">配送中</van-button>
+                        <van-button wx:if="{{item.state==5}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待确认</van-button>
+                        <van-button wx:if="{{item.state==3}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已完成</van-button>
+                        <van-button wx:if="{{item.state==4}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已取消</van-button>
+                        
+                 </view>
+                 <view class="bottom" wx:if="{{anniu_show!==index}}">
+                          <van-button wx:if="{{item.state==1}}" size="mini" bind:click="cancel_order" data-anniu_show="{{index}}" data-id="{{item._id}}" data-yuanjia="{{item.yuanjia}}" data-_openid="{{item._openid}}" custom-style="width:150rpx;" round type="danger">取消订单</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2&&!item.cui}}" size="mini" bind:click="cui" data-id="{{item._id}}"  custom-style="width:150rpx;"  round type="danger">催一催</van-button>
+                          <van-button wx:if="{{item.state==2&&item.cui}}" size="mini" custom-style="width:150rpx;"  round type="default">已催过</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2||item.state==5}}" size="mini" bind:click="call_phone" data-id="{{item._id}}" custom-style="width:150rpx;margin-left:20rpx;margin-right:20rpx;" round type="primary">联系跑腿员</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==5}}" size="mini" bind:click="confirm_songda" data-id="{{item._id}}" data-cost="{{item.cost}}" data-order_id="{{item.order_id}}" custom-style="width:150rpx;" round type="danger">确认送达</van-button>
+                          <van-button wx:if="{{item.state==3}}" size="mini" bind:click="chakan_pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="primary">查看评价</van-button>
+                          <van-button wx:if="{{item.state==3&&!item.pingjia}}" size="mini" bind:click="pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;margin-left:10rpx;" round type="primary">评价</van-button>
+                          <van-button wx:if="{{item.state==3&&item.pingjia}}" size="mini"  custom-style="width:150rpx;margin-left:10rpx;" round type="default">已评</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==3||item.state==4}}" size="mini" bind:click="delete_order" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="danger">删除订单</van-button>
+                 </view>
+              </view>
+              <!--帮我买-->
+              <view wx:if="{{item.category=='帮我买'}}" class="dingdan">
+                 <view class="dingdan_top">
+                     <view class="dingdan_top1">
+                          <view style="width: 10%;">{{index+1}}、</view>
+                          <image style="width: 50rpx;height: 50rpx;margin-left: 20rpx;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/mai.png?sign=41e514a9e78de86b6359f634cdd4351a&t=1631280757"></image>
+                     </view>
+                     <view>
+                         <text>{{morejs.timelog(item.creat)}}发布</text>
+                     </view>
+                     <view style="color: red;">{{item.yuanjia}}元</view>
+                 </view>
+                 <view class="dingdan_center">
+                      <view class="dingdan_centerleft">
+                           <view class="dingdan_centermai"><view style="width: 80%;white-space: nowrap; background-color: white;overflow: hidden;">{{item.notes}}</view><view>...</view></view>
+                      </view>
+                      <view wx:if="{{item.mai_location=='请选择购买地点'}}">（就近购买）</view>
+                      <view style="width: 95%;display: flex;justify-content: center; align-items: center;" wx:if="{{item.mai_location!=='请选择购买地点'}}">（{{item.mai_location}}）</view>
+                      <text>↓</text>
+                      
+                      <view>
+                          {{item.end_location}}
+                      </view>
+                 </view>
+                 <view class="dingdan_bottom">
+                        <van-button wx:if="{{item.state==1}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待接单</van-button>
+                        <van-button wx:if="{{item.state==2}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">配送中</van-button>
+                        <van-button wx:if="{{item.state==5}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待确认</van-button>
+                        <van-button wx:if="{{item.state==3}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已完成</van-button>
+                        <van-button wx:if="{{item.state==4}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已取消</van-button>
+                        
+                 </view>
+                 <view class="bottom" wx:if="{{anniu_show!==index}}">
+                          <van-button wx:if="{{item.state==1}}" size="mini" bind:click="cancel_order" data-anniu_show="{{index}}" data-id="{{item._id}}" data-yuanjia="{{item.yuanjia}}" data-_openid="{{item._openid}}" custom-style="width:150rpx;" round type="danger">取消订单</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2&&!item.cui}}" size="mini" bind:click="cui" data-id="{{item._id}}"  custom-style="width:150rpx;"  round type="danger">催一催</van-button>
+                          <van-button wx:if="{{item.state==2&&item.cui}}" size="mini" custom-style="width:150rpx;"  round type="default">已催过</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2||item.state==5}}" size="mini" bind:click="call_phone" data-id="{{item._id}}" custom-style="width:150rpx;margin-left:20rpx;margin-right:20rpx;" round type="primary">联系跑腿员</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==5}}" size="mini" bind:click="confirm_songda" data-id="{{item._id}}" data-cost="{{item.cost}}" data-order_id="{{item.order_id}}" custom-style="width:150rpx;" round type="danger">确认送达</van-button>
+                          <van-button wx:if="{{item.state==3}}" size="mini" bind:click="chakan_pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="primary">查看评价</van-button>
+                          <van-button wx:if="{{item.state==3&&!item.pingjia}}" size="mini" bind:click="pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;margin-left:10rpx;" round type="primary">评价</van-button>
+                          <van-button wx:if="{{item.state==3&&item.pingjia}}" size="mini"  custom-style="width:150rpx;margin-left:10rpx;" round type="default">已评</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==3||item.state==4}}" size="mini" bind:click="delete_order" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="danger">删除订单</van-button>
+                 </view>
+              </view>
+              <!--帮我送-->
+              <view wx:if="{{item.category=='帮我送'}}" class="dingdan">
+                 <view class="dingdan_top">
+                     <view class="dingdan_top1">
+                          <view style="width: 10%;">{{index+1}}、</view>
+                          <image style="width: 50rpx;height: 50rpx;margin-left: 20rpx;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/songla.png?sign=0978a0aefa81e7e2ebea53813ac65a2b&t=1631328457"></image>
+                     </view>
+                     <view>
+                         <text>{{morejs.timelog(item.creat)}}发布</text>
+                     </view>
+                     <view style="color: red;">{{item.cost}}元</view>
+                 </view>
+                 <view class="dingdan_center">
+                      <view class="dingdan_centerleft">
+                           <view>{{item.start_location}}</view>
+                           
+                          
+                      </view>
+                
+                      <text>↓</text>
+                      
+                      <view>
+                          {{item.end_location}}
+                      </view>
+                 </view>
+                 <view class="dingdan_bottom">
+                        <van-button wx:if="{{item.state==1}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待接单</van-button>
+                        <van-button wx:if="{{item.state==2}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">配送中</van-button>
+                        <van-button wx:if="{{item.state==5}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待确认</van-button>
+                        <van-button wx:if="{{item.state==3}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已完成</van-button>
+                        <van-button wx:if="{{item.state==4}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已取消</van-button>
+                        
+                 </view>
+                 <view class="bottom" wx:if="{{anniu_show!==index}}">
+                          <van-button wx:if="{{item.state==1}}" size="mini" bind:click="cancel_order" data-anniu_show="{{index}}" data-id="{{item._id}}" data-yuanjia="{{item.yuanjia}}" data-_openid="{{item._openid}}" custom-style="width:150rpx;" round type="danger">取消订单</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2&&!item.cui}}" size="mini" bind:click="cui" data-id="{{item._id}}"  custom-style="width:150rpx;"  round type="danger">催一催</van-button>
+                          <van-button wx:if="{{item.state==2&&item.cui}}" size="mini" custom-style="width:150rpx;"  round type="default">已催过</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2||item.state==5}}" size="mini" bind:click="call_phone" data-id="{{item._id}}" custom-style="width:150rpx;margin-left:20rpx;margin-right:20rpx;" round type="primary">联系跑腿员</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==5}}" size="mini" bind:click="confirm_songda" data-id="{{item._id}}" data-cost="{{item.cost}}" data-order_id="{{item.order_id}}" custom-style="width:150rpx;" round type="danger">确认送达</van-button>
+                          <van-button wx:if="{{item.state==3}}" size="mini" bind:click="chakan_pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="primary">查看评价</van-button>
+                          <van-button wx:if="{{item.state==3&&!item.pingjia}}" size="mini" bind:click="pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;margin-left:10rpx;" round type="primary">评价</van-button>
+                          <van-button wx:if="{{item.state==3&&item.pingjia}}" size="mini"  custom-style="width:150rpx;margin-left:10rpx;" round type="default">已评</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==3||item.state==4}}" size="mini" bind:click="delete_order" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="danger">删除订单</van-button>
+                 </view>
+              </view>
+              <!--帮我取-->
+              <view wx:if="{{item.category=='帮我取'}}" class="dingdan">
+                 <view class="dingdan_top">
+                     <view class="dingdan_top1">
+                          <view style="width: 10%;">{{index+1}}、</view>
+                          <image style="width: 50rpx;height: 50rpx;margin-left: 20rpx;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/qu.png?sign=73dd07dfb283a347b03aca73ff51de8c&t=1631329366"></image>
+                     </view>
+                     <view>
+                         <text>{{morejs.timelog(item.creat)}}发布</text>
+                     </view>
+                     <view style="color: red;">{{item.cost}}元</view>
+                 </view>
+                 <view class="dingdan_center">
+                      <view class="dingdan_centerleft">
+                           <view>{{item.start_location}}</view>
+                           
+                          
+                      </view>
+                
+                      <text>↓</text>
+                      
+                      <view>
+                          {{item.end_location}}
+                      </view>
+                 </view>
+                 <view class="dingdan_bottom">
+                        <van-button wx:if="{{item.state==1}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待接单</van-button>
+                        <van-button wx:if="{{item.state==2}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">配送中</van-button>
+                        <van-button wx:if="{{item.state==5}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待确认</van-button>
+                        <van-button wx:if="{{item.state==3}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已完成</van-button>
+                        <van-button wx:if="{{item.state==4}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已取消</van-button>
+                 </view>
+                 <view class="bottom" wx:if="{{anniu_show!==index}}">
+                          <van-button wx:if="{{item.state==1}}" size="mini" bind:click="cancel_order" data-anniu_show="{{index}}" data-id="{{item._id}}" data-yuanjia="{{item.yuanjia}}" data-_openid="{{item._openid}}" custom-style="width:150rpx;" round type="danger">取消订单</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2&&!item.cui}}" size="mini" bind:click="cui" data-id="{{item._id}}"  custom-style="width:150rpx;"  round type="danger">催一催</van-button>
+                          <van-button wx:if="{{item.state==2&&item.cui}}" size="mini" custom-style="width:150rpx;"  round type="default">已催过</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2||item.state==5}}" size="mini" bind:click="call_phone" data-id="{{item._id}}" custom-style="width:150rpx;margin-left:20rpx;margin-right:20rpx;" round type="primary">联系跑腿员</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==5}}" size="mini" bind:click="confirm_songda" data-id="{{item._id}}" data-cost="{{item.cost}}" data-order_id="{{item.order_id}}" custom-style="width:150rpx;" round type="danger">确认送达</van-button>
+                          <van-button wx:if="{{item.state==3}}" size="mini" bind:click="chakan_pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="primary">查看评价</van-button>
+                          <van-button wx:if="{{item.state==3&&!item.pingjia}}" size="mini" bind:click="pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;margin-left:10rpx;" round type="primary">评价</van-button>
+                          <van-button wx:if="{{item.state==3&&item.pingjia}}" size="mini"  custom-style="width:150rpx;margin-left:10rpx;" round type="default">已评</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==3||item.state==4}}" size="mini" bind:click="delete_order" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="danger">删除订单</van-button>
+                 </view>
+              </view>
+              
+            </block>
+            <block wx:if="{{list.length==0}}">
+                  <van-empty description="空空如也" />
+            </block>
+        
+  </van-tab>
+  <van-tab title="已完成">
+    <block wx:if="{{list.length!==0}}" wx:for="{{list}}" wx:key="index">
+              <!--其他跑腿订单-->
+              <view wx:if="{{item.category=='其他跑腿'}}" class="dingdan">
+                 <view class="dingdan_top">
+                     <view class="dingdan_top1">
+                          <view style="width: 10%;">{{index+1}}、</view>
+                          <image style="width: 50rpx;height: 50rpx;margin-left: 20rpx;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/else.png?sign=ac7752225ccd23667eccf44a4139a1de&t=1631359659"></image>
+                     </view>
+                     <view>
+                         <text>{{morejs.timelog(item.creat)}}发布</text>
+                     </view>
+                     <view style="color: red;">{{item.yuanjia}}元</view>
+                 </view>
+                 <view class="dingdan_center">
+                      <view class="dingdan_centermai">
+                           <view class="dingdan_centernotes"><view style="width: 50%;display: flex;justify-content: flex-end; background-color: white;overflow: hidden;margin-left: 20%;">{{item.notes}}</view><view>...</view></view>
+                           
+                      </view>
+                
+                      <text>↓</text>
+                      
+                      <view>
+                          {{item.end_location}}
+                      </view>
+                 </view>
+                 <view class="dingdan_bottom">
+                        <van-button wx:if="{{item.state==1}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待接单</van-button>
+                        <van-button wx:if="{{item.state==2}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">配送中</van-button>
+                        <van-button wx:if="{{item.state==5}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待确认</van-button>
+                        <van-button wx:if="{{item.state==3}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已完成</van-button>
+                        <van-button wx:if="{{item.state==4}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已取消</van-button>
+                        
+                 </view>
+                 <view class="bottom" wx:if="{{anniu_show!==index}}">
+                          <van-button wx:if="{{item.state==1}}" size="mini" bind:click="cancel_order" data-anniu_show="{{index}}" data-id="{{item._id}}" data-yuanjia="{{item.yuanjia}}" data-_openid="{{item._openid}}" custom-style="width:150rpx;" round type="danger">取消订单</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2&&!item.cui}}" size="mini" bind:click="cui" data-id="{{item._id}}"  custom-style="width:150rpx;"  round type="danger">催一催</van-button>
+                          <van-button wx:if="{{item.state==2&&item.cui}}" size="mini" custom-style="width:150rpx;"  round type="default">已催过</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2||item.state==5}}" size="mini" bind:click="call_phone" data-id="{{item._id}}" custom-style="width:150rpx;margin-left:20rpx;margin-right:20rpx;" round type="primary">联系跑腿员</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==5}}" size="mini" bind:click="confirm_songda" data-id="{{item._id}}" data-cost="{{item.cost}}" data-order_id="{{item.order_id}}" custom-style="width:150rpx;" round type="danger">确认送达</van-button>
+                          <van-button wx:if="{{item.state==3}}" size="mini" bind:click="chakan_pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="primary">查看评价</van-button>
+                          <van-button wx:if="{{item.state==3&&!item.pingjia}}" size="mini" bind:click="pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;margin-left:10rpx;" round type="primary">评价</van-button>
+                          <van-button wx:if="{{item.state==3&&item.pingjia}}" size="mini"  custom-style="width:150rpx;margin-left:10rpx;" round type="default">已评</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==3||item.state==4}}" size="mini" bind:click="delete_order" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="danger">删除订单</van-button>
+                 </view>
+              </view>
+              <!--帮我买-->
+              <view wx:if="{{item.category=='帮我买'}}" class="dingdan">
+                 <view class="dingdan_top">
+                     <view class="dingdan_top1">
+                          <view style="width: 10%;">{{index+1}}、</view>
+                          <image style="width: 50rpx;height: 50rpx;margin-left: 20rpx;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/mai.png?sign=41e514a9e78de86b6359f634cdd4351a&t=1631280757"></image>
+                     </view>
+                     <view>
+                         <text>{{morejs.timelog(item.creat)}}发布</text>
+                     </view>
+                     <view style="color: red;">{{item.yuanjia}}元</view>
+                 </view>
+                 <view class="dingdan_center">
+                      <view class="dingdan_centerleft">
+                           <view class="dingdan_centermai"><view style="width: 80%;white-space: nowrap; background-color: white;overflow: hidden;">{{item.notes}}</view><view>...</view></view>
+                      </view>
+                      <view wx:if="{{item.mai_location=='请选择购买地点'}}">（就近购买）</view>
+                      <view style="width: 95%;display: flex;justify-content: center; align-items: center;" wx:if="{{item.mai_location!=='请选择购买地点'}}">（{{item.mai_location}}）</view>
+                      <text>↓</text>
+                      
+                      <view>
+                          {{item.end_location}}
+                      </view>
+                 </view>
+                 <view class="dingdan_bottom">
+                        <van-button wx:if="{{item.state==1}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待接单</van-button>
+                        <van-button wx:if="{{item.state==2}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">配送中</van-button>
+                        <van-button wx:if="{{item.state==5}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待确认</van-button>
+                        <van-button wx:if="{{item.state==3}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已完成</van-button>
+                        <van-button wx:if="{{item.state==4}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已取消</van-button>
+                        
+                 </view>
+                 <view class="bottom" wx:if="{{anniu_show!==index}}">
+                          <van-button wx:if="{{item.state==1}}" size="mini" bind:click="cancel_order" data-anniu_show="{{index}}" data-id="{{item._id}}" data-yuanjia="{{item.yuanjia}}" data-_openid="{{item._openid}}" custom-style="width:150rpx;" round type="danger">取消订单</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2&&!item.cui}}" size="mini" bind:click="cui" data-id="{{item._id}}"  custom-style="width:150rpx;"  round type="danger">催一催</van-button>
+                          <van-button wx:if="{{item.state==2&&item.cui}}" size="mini" custom-style="width:150rpx;"  round type="default">已催过</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2||item.state==5}}" size="mini" bind:click="call_phone" data-id="{{item._id}}" custom-style="width:150rpx;margin-left:20rpx;margin-right:20rpx;" round type="primary">联系跑腿员</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==5}}" size="mini" bind:click="confirm_songda" data-id="{{item._id}}" data-cost="{{item.cost}}" data-order_id="{{item.order_id}}" custom-style="width:150rpx;" round type="danger">确认送达</van-button>
+                          <van-button wx:if="{{item.state==3}}" size="mini" bind:click="chakan_pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="primary">查看评价</van-button>
+                          <van-button wx:if="{{item.state==3&&!item.pingjia}}" size="mini" bind:click="pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;margin-left:10rpx;" round type="primary">评价</van-button>
+                          <van-button wx:if="{{item.state==3&&item.pingjia}}" size="mini"  custom-style="width:150rpx;margin-left:10rpx;" round type="default">已评</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==3||item.state==4}}" size="mini" bind:click="delete_order" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="danger">删除订单</van-button>
+                 </view>
+              </view>
+              <!--帮我送-->
+              <view wx:if="{{item.category=='帮我送'}}" class="dingdan">
+                 <view class="dingdan_top">
+                     <view class="dingdan_top1">
+                          <view style="width: 10%;">{{index+1}}、</view>
+                          <image style="width: 50rpx;height: 50rpx;margin-left: 20rpx;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/songla.png?sign=0978a0aefa81e7e2ebea53813ac65a2b&t=1631328457"></image>
+                     </view>
+                     <view>
+                         <text>{{morejs.timelog(item.creat)}}发布</text>
+                     </view>
+                     <view style="color: red;">{{item.cost}}元</view>
+                 </view>
+                 <view class="dingdan_center">
+                      <view class="dingdan_centerleft">
+                           <view>{{item.start_location}}</view>
+                           
+                          
+                      </view>
+                
+                      <text>↓</text>
+                      
+                      <view>
+                          {{item.end_location}}
+                      </view>
+                 </view>
+                 <view class="dingdan_bottom">
+                        <van-button wx:if="{{item.state==1}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待接单</van-button>
+                        <van-button wx:if="{{item.state==2}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">配送中</van-button>
+                        <van-button wx:if="{{item.state==5}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待确认</van-button>
+                        <van-button wx:if="{{item.state==3}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已完成</van-button>
+                        <van-button wx:if="{{item.state==4}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已取消</van-button>
+                        
+                 </view>
+                 <view class="bottom" wx:if="{{anniu_show!==index}}">
+                          <van-button wx:if="{{item.state==1}}" size="mini" bind:click="cancel_order" data-anniu_show="{{index}}" data-id="{{item._id}}" data-yuanjia="{{item.yuanjia}}" data-_openid="{{item._openid}}" custom-style="width:150rpx;" round type="danger">取消订单</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2&&!item.cui}}" size="mini" bind:click="cui" data-id="{{item._id}}"  custom-style="width:150rpx;"  round type="danger">催一催</van-button>
+                          <van-button wx:if="{{item.state==2&&item.cui}}" size="mini" custom-style="width:150rpx;"  round type="default">已催过</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2||item.state==5}}" size="mini" bind:click="call_phone" data-id="{{item._id}}" custom-style="width:150rpx;margin-left:20rpx;margin-right:20rpx;" round type="primary">联系跑腿员</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==5}}" size="mini" bind:click="confirm_songda" data-id="{{item._id}}" data-cost="{{item.cost}}" data-order_id="{{item.order_id}}" custom-style="width:150rpx;" round type="danger">确认送达</van-button>
+                          <van-button wx:if="{{item.state==3}}" size="mini" bind:click="chakan_pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="primary">查看评价</van-button>
+                          <van-button wx:if="{{item.state==3&&!item.pingjia}}" size="mini" bind:click="pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;margin-left:10rpx;" round type="primary">评价</van-button>
+                          <van-button wx:if="{{item.state==3&&item.pingjia}}" size="mini"  custom-style="width:150rpx;margin-left:10rpx;" round type="default">已评</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==3||item.state==4}}" size="mini" bind:click="delete_order" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="danger">删除订单</van-button>
+                 </view>
+              </view>
+              <!--帮我取-->
+              <view wx:if="{{item.category=='帮我取'}}" class="dingdan">
+                 <view class="dingdan_top">
+                     <view class="dingdan_top1">
+                          <view style="width: 10%;">{{index+1}}、</view>
+                          <image style="width: 50rpx;height: 50rpx;margin-left: 20rpx;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/qu.png?sign=73dd07dfb283a347b03aca73ff51de8c&t=1631329366"></image>
+                     </view>
+                     <view>
+                         <text>{{morejs.timelog(item.creat)}}发布</text>
+                     </view>
+                     <view style="color: red;">{{item.cost}}元</view>
+                 </view>
+                 <view class="dingdan_center">
+                      <view class="dingdan_centerleft">
+                           <view>{{item.start_location}}</view>
+                           
+                          
+                      </view>
+                
+                      <text>↓</text>
+                      
+                      <view>
+                          {{item.end_location}}
+                      </view>
+                 </view>
+                 <view class="dingdan_bottom">
+                        <van-button wx:if="{{item.state==1}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待接单</van-button>
+                        <van-button wx:if="{{item.state==2}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">配送中</van-button>
+                        <van-button wx:if="{{item.state==5}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待确认</van-button>
+                        <van-button wx:if="{{item.state==3}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已完成</van-button>
+                        <van-button wx:if="{{item.state==4}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已取消</van-button>
+                 </view>
+                 <view class="bottom" wx:if="{{anniu_show!==index}}">
+                          <van-button wx:if="{{item.state==1}}" size="mini" bind:click="cancel_order" data-anniu_show="{{index}}" data-id="{{item._id}}" data-yuanjia="{{item.yuanjia}}" data-_openid="{{item._openid}}" custom-style="width:150rpx;" round type="danger">取消订单</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2&&!item.cui}}" size="mini" bind:click="cui" data-id="{{item._id}}"  custom-style="width:150rpx;"  round type="danger">催一催</van-button>
+                          <van-button wx:if="{{item.state==2&&item.cui}}" size="mini" custom-style="width:150rpx;"  round type="default">已催过</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2||item.state==5}}" size="mini" bind:click="call_phone" data-id="{{item._id}}" custom-style="width:150rpx;margin-left:20rpx;margin-right:20rpx;" round type="primary">联系跑腿员</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==5}}" size="mini" bind:click="confirm_songda" data-id="{{item._id}}" data-cost="{{item.cost}}" data-order_id="{{item.order_id}}" custom-style="width:150rpx;" round type="danger">确认送达</van-button>
+                          <van-button wx:if="{{item.state==3}}" size="mini" bind:click="chakan_pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="primary">查看评价</van-button>
+                          <van-button wx:if="{{item.state==3&&!item.pingjia}}" size="mini" bind:click="pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;margin-left:10rpx;" round type="primary">评价</van-button>
+                          <van-button wx:if="{{item.state==3&&item.pingjia}}" size="mini"  custom-style="width:150rpx;margin-left:10rpx;" round type="default">已评</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==3||item.state==4}}" size="mini" bind:click="delete_order" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="danger">删除订单</van-button>
+                 </view>
+              </view>
+              
+            </block>
+            <block wx:if="{{list.length==0}}">
+                  <van-empty description="空空如也" />
+            </block>
+        
+  </van-tab>
+  <van-tab title="已取消">
+    <block wx:if="{{list.length!==0}}" wx:for="{{list}}" wx:key="index">
+              <!--其他跑腿订单-->
+              <view wx:if="{{item.category=='其他跑腿'}}" class="dingdan">
+                 <view class="dingdan_top">
+                     <view class="dingdan_top1">
+                          <view style="width: 10%;">{{index+1}}、</view>
+                          <image style="width: 50rpx;height: 50rpx;margin-left: 20rpx;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/else.png?sign=ac7752225ccd23667eccf44a4139a1de&t=1631359659"></image>
+                     </view>
+                     <view>
+                         <text>{{morejs.timelog(item.creat)}}发布</text>
+                     </view>
+                     <view style="color: red;">{{item.yuanjia}}元</view>
+                 </view>
+                 <view class="dingdan_center">
+                      <view class="dingdan_centermai">
+                           <view class="dingdan_centernotes"><view style="width: 50%;display: flex;justify-content: flex-end; background-color: white;overflow: hidden;margin-left: 20%;">{{item.notes}}</view><view>...</view></view>
+                           
+                      </view>
+                
+                      <text>↓</text>
+                      
+                      <view>
+                          {{item.end_location}}
+                      </view>
+                 </view>
+                 <view class="dingdan_bottom">
+                        <van-button wx:if="{{item.state==1}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待接单</van-button>
+                        <van-button wx:if="{{item.state==2}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">配送中</van-button>
+                        <van-button wx:if="{{item.state==5}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待确认</van-button>
+                        <van-button wx:if="{{item.state==3}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已完成</van-button>
+                        <van-button wx:if="{{item.state==4}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已取消</van-button>
+                        
+                 </view>
+                 <view class="bottom" wx:if="{{anniu_show!==index}}">
+                          <van-button wx:if="{{item.state==1}}" size="mini" bind:click="cancel_order" data-anniu_show="{{index}}" data-id="{{item._id}}" data-yuanjia="{{item.yuanjia}}" data-_openid="{{item._openid}}" custom-style="width:150rpx;" round type="danger">取消订单</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2&&!item.cui}}" size="mini" bind:click="cui" data-id="{{item._id}}"  custom-style="width:150rpx;"  round type="danger">催一催</van-button>
+                          <van-button wx:if="{{item.state==2&&item.cui}}" size="mini" custom-style="width:150rpx;"  round type="default">已催过</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2||item.state==5}}" size="mini" bind:click="call_phone" data-id="{{item._id}}" custom-style="width:150rpx;margin-left:20rpx;margin-right:20rpx;" round type="primary">联系跑腿员</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==5}}" size="mini" bind:click="confirm_songda" data-id="{{item._id}}" data-cost="{{item.cost}}" data-order_id="{{item.order_id}}" custom-style="width:150rpx;" round type="danger">确认送达</van-button>
+                          <van-button wx:if="{{item.state==3}}" size="mini" bind:click="chakan_pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="primary">查看评价</van-button>
+                          <van-button wx:if="{{item.state==3&&!item.pingjia}}" size="mini" bind:click="pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;margin-left:10rpx;" round type="primary">评价</van-button>
+                          <van-button wx:if="{{item.state==3&&item.pingjia}}" size="mini"  custom-style="width:150rpx;margin-left:10rpx;" round type="default">已评</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==3||item.state==4}}" size="mini" bind:click="delete_order" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="danger">删除订单</van-button>
+                 </view>
+              </view>
+              <!--帮我买-->
+              <view wx:if="{{item.category=='帮我买'}}" class="dingdan">
+                 <view class="dingdan_top">
+                     <view class="dingdan_top1">
+                          <view style="width: 10%;">{{index+1}}、</view>
+                          <image style="width: 50rpx;height: 50rpx;margin-left: 20rpx;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/mai.png?sign=41e514a9e78de86b6359f634cdd4351a&t=1631280757"></image>
+                     </view>
+                     <view>
+                         <text>{{morejs.timelog(item.creat)}}发布</text>
+                     </view>
+                     <view style="color: red;">{{item.yuanjia}}元</view>
+                 </view>
+                 <view class="dingdan_center">
+                      <view class="dingdan_centerleft">
+                           <view class="dingdan_centermai"><view style="width: 80%;white-space: nowrap; background-color: white;overflow: hidden;">{{item.notes}}</view><view>...</view></view>
+                      </view>
+                      <view wx:if="{{item.mai_location=='请选择购买地点'}}">（就近购买）</view>
+                      <view style="width: 95%;display: flex;justify-content: center; align-items: center;" wx:if="{{item.mai_location!=='请选择购买地点'}}">（{{item.mai_location}}）</view>
+                      <text>↓</text>
+                      
+                      <view>
+                          {{item.end_location}}
+                      </view>
+                 </view>
+                 <view class="dingdan_bottom">
+                        <van-button wx:if="{{item.state==1}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待接单</van-button>
+                        <van-button wx:if="{{item.state==2}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">配送中</van-button>
+                        <van-button wx:if="{{item.state==5}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待确认</van-button>
+                        <van-button wx:if="{{item.state==3}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已完成</van-button>
+                        <van-button wx:if="{{item.state==4}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已取消</van-button>
+                        
+                 </view>
+                 <view class="bottom" wx:if="{{anniu_show!==index}}">
+                          <van-button wx:if="{{item.state==1}}" size="mini" bind:click="cancel_order" data-anniu_show="{{index}}" data-id="{{item._id}}" data-yuanjia="{{item.yuanjia}}" data-_openid="{{item._openid}}" custom-style="width:150rpx;" round type="danger">取消订单</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2&&!item.cui}}" size="mini" bind:click="cui" data-id="{{item._id}}"  custom-style="width:150rpx;"  round type="danger">催一催</van-button>
+                          <van-button wx:if="{{item.state==2&&item.cui}}" size="mini" custom-style="width:150rpx;"  round type="default">已催过</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2||item.state==5}}" size="mini" bind:click="call_phone" data-id="{{item._id}}" custom-style="width:150rpx;margin-left:20rpx;margin-right:20rpx;" round type="primary">联系跑腿员</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==5}}" size="mini" bind:click="confirm_songda" data-id="{{item._id}}" data-cost="{{item.cost}}" data-order_id="{{item.order_id}}" custom-style="width:150rpx;" round type="danger">确认送达</van-button>
+                          <van-button wx:if="{{item.state==3}}" size="mini" bind:click="chakan_pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="primary">查看评价</van-button>
+                          <van-button wx:if="{{item.state==3&&!item.pingjia}}" size="mini" bind:click="pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;margin-left:10rpx;" round type="primary">评价</van-button>
+                          <van-button wx:if="{{item.state==3&&item.pingjia}}" size="mini"  custom-style="width:150rpx;margin-left:10rpx;" round type="default">已评</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==3||item.state==4}}" size="mini" bind:click="delete_order" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="danger">删除订单</van-button>
+                 </view>
+              </view>
+              <!--帮我送-->
+              <view wx:if="{{item.category=='帮我送'}}" class="dingdan">
+                 <view class="dingdan_top">
+                     <view class="dingdan_top1">
+                          <view style="width: 10%;">{{index+1}}、</view>
+                          <image style="width: 50rpx;height: 50rpx;margin-left: 20rpx;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/songla.png?sign=0978a0aefa81e7e2ebea53813ac65a2b&t=1631328457"></image>
+                     </view>
+                     <view>
+                         <text>{{morejs.timelog(item.creat)}}发布</text>
+                     </view>
+                     <view style="color: red;">{{item.cost}}元</view>
+                 </view>
+                 <view class="dingdan_center">
+                      <view class="dingdan_centerleft">
+                           <view>{{item.start_location}}</view>
+                           
+                          
+                      </view>
+                
+                      <text>↓</text>
+                      
+                      <view>
+                          {{item.end_location}}
+                      </view>
+                 </view>
+                 <view class="dingdan_bottom">
+                        <van-button wx:if="{{item.state==1}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待接单</van-button>
+                        <van-button wx:if="{{item.state==2}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">配送中</van-button>
+                        <van-button wx:if="{{item.state==5}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待确认</van-button>
+                        <van-button wx:if="{{item.state==3}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已完成</van-button>
+                        <van-button wx:if="{{item.state==4}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已取消</van-button>
+                        
+                 </view>
+                 <view class="bottom" wx:if="{{anniu_show!==index}}">
+                          <van-button wx:if="{{item.state==1}}" size="mini" bind:click="cancel_order" data-anniu_show="{{index}}" data-id="{{item._id}}" data-yuanjia="{{item.yuanjia}}" data-_openid="{{item._openid}}" custom-style="width:150rpx;" round type="danger">取消订单</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2&&!item.cui}}" size="mini" bind:click="cui" data-id="{{item._id}}"  custom-style="width:150rpx;"  round type="danger">催一催</van-button>
+                          <van-button wx:if="{{item.state==2&&item.cui}}" size="mini" custom-style="width:150rpx;"  round type="default">已催过</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2||item.state==5}}" size="mini" bind:click="call_phone" data-id="{{item._id}}" custom-style="width:150rpx;margin-left:20rpx;margin-right:20rpx;" round type="primary">联系跑腿员</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==5}}" size="mini" bind:click="confirm_songda" data-id="{{item._id}}" data-cost="{{item.cost}}" data-order_id="{{item.order_id}}" custom-style="width:150rpx;" round type="danger">确认送达</van-button>
+                          <van-button wx:if="{{item.state==3}}" size="mini" bind:click="chakan_pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="primary">查看评价</van-button>
+                          <van-button wx:if="{{item.state==3&&!item.pingjia}}" size="mini" bind:click="pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;margin-left:10rpx;" round type="primary">评价</van-button>
+                          <van-button wx:if="{{item.state==3&&item.pingjia}}" size="mini"  custom-style="width:150rpx;margin-left:10rpx;" round type="default">已评</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==3||item.state==4}}" size="mini" bind:click="delete_order" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="danger">删除订单</van-button>
+                 </view>
+              </view>
+              <!--帮我取-->
+              <view wx:if="{{item.category=='帮我取'}}" class="dingdan">
+                 <view class="dingdan_top">
+                     <view class="dingdan_top1">
+                          <view style="width: 10%;">{{index+1}}、</view>
+                          <image style="width: 50rpx;height: 50rpx;margin-left: 20rpx;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/qu.png?sign=73dd07dfb283a347b03aca73ff51de8c&t=1631329366"></image>
+                     </view>
+                     <view>
+                         <text>{{morejs.timelog(item.creat)}}发布</text>
+                     </view>
+                     <view style="color: red;">{{item.cost}}元</view>
+                 </view>
+                 <view class="dingdan_center">
+                      <view class="dingdan_centerleft">
+                           <view>{{item.start_location}}</view>
+                           
+                          
+                      </view>
+                
+                      <text>↓</text>
+                      
+                      <view>
+                          {{item.end_location}}
+                      </view>
+                 </view>
+                 <view class="dingdan_bottom">
+                        <van-button wx:if="{{item.state==1}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待接单</van-button>
+                        <van-button wx:if="{{item.state==2}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">配送中</van-button>
+                        <van-button wx:if="{{item.state==5}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">待确认</van-button>
+                        <van-button wx:if="{{item.state==3}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已完成</van-button>
+                        <van-button wx:if="{{item.state==4}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">已取消</van-button>
+                 </view>
+                 <view class="bottom" wx:if="{{anniu_show!==index}}">
+                          <van-button wx:if="{{item.state==1}}" size="mini" bind:click="cancel_order" data-anniu_show="{{index}}" data-id="{{item._id}}" data-yuanjia="{{item.yuanjia}}" data-_openid="{{item._openid}}" custom-style="width:150rpx;" round type="danger">取消订单</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2&&!item.cui}}" size="mini" bind:click="cui" data-id="{{item._id}}"  custom-style="width:150rpx;"  round type="danger">催一催</van-button>
+                          <van-button wx:if="{{item.state==2&&item.cui}}" size="mini" custom-style="width:150rpx;"  round type="default">已催过</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==2||item.state==5}}" size="mini" bind:click="call_phone" data-id="{{item._id}}" custom-style="width:150rpx;margin-left:20rpx;margin-right:20rpx;" round type="primary">联系跑腿员</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==5}}" size="mini" bind:click="confirm_songda" data-id="{{item._id}}" data-cost="{{item.cost}}" data-order_id="{{item.order_id}}" custom-style="width:150rpx;" round type="danger">确认送达</van-button>
+                          <van-button wx:if="{{item.state==3}}" size="mini" bind:click="chakan_pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="primary">查看评价</van-button>
+                          <van-button wx:if="{{item.state==3&&!item.pingjia}}" size="mini" bind:click="pingjia" data-id="{{item._id}}"  custom-style="width:150rpx;margin-left:10rpx;" round type="primary">评价</van-button>
+                          <van-button wx:if="{{item.state==3&&item.pingjia}}" size="mini"  custom-style="width:150rpx;margin-left:10rpx;" round type="default">已评</van-button>
+                          <van-button data-anniu_show="{{index}}" wx:if="{{item.state==3||item.state==4}}" size="mini" bind:click="delete_order" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="danger">删除订单</van-button>
+                 </view>
+              </view>
+              
+            </block>
+            <block wx:if="{{list.length==0}}">
+                  <van-empty description="空空如也" />
+            </block>
+        
+  </van-tab>
+</van-tabs>
+

@@ -1,0 +1,38 @@
+<view class="top-bg"></view>
+<view class="contain">
+      <view class="card">
+            <view class="title">修改资料</view>
+            <button class="phone" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">
+                  <block wx:if="{{phone==''}}"> 请点击获取您的手机号</block>
+                  <block wx:if="{{phone!==''}}"> {{phone}}</block>
+                  <image wx:if="{{phone==''}}" class="right" src="/images/right.png" />
+            </button>
+            <view class="contact" bindtap="popup_campus">
+                  <input value="{{choose_campus}}" disabled placeholder-class="pache" />
+            </view>
+            <van-popup show="{{ campus_show }}" round position="bottom" duration>
+                  <van-picker columns="{{ campus }}" show-toolbar title="请选择校区" bind:confirm="campus_confirm" bind:cancel="campus_cancel" bind:change="campus_change" />
+            </van-popup>
+            <view class="contact">
+                  <input bindinput="dizhiInput" value="{{dizhi}}" maxlength="50" placeholder-class="pache" placeholder="输入您的校区、宿舍" />
+            </view>
+             <view class="contact">
+                  <input bindinput="emInput" value="{{email}}" maxlength="30" placeholder-class="pache" placeholder="输入您的邮箱地址" />
+            </view>
+            <view class="contact">
+                  <input bindinput="wxInput" value="{{wxnum}}" maxlength="30" placeholder-class="pache" placeholder="输入您的微信号(选填)" />
+            </view>
+            <view class="contact">
+                  <input type="number" bindinput="qqInput" value="{{qqnum}}" maxlength="20" placeholder-class="pache" placeholder="输入您的QQ号(选填)" />
+            </view>
+      </view>
+      <!--底部确认-->
+      <button class="confirm" bindtap="getUserProfile">提交修改</button>
+      <view class="shen_title">
+            <image class="about" src="/images/about.png" />使用申明
+      </view>
+      <view class="des">1. 请确保手机号和邮箱百分百有效，之后将用于发送实时订单通知。</view>
+      <view class="des">2. 在未经您同意及确认之前，本程序不会将您的注册信息用于任何其它商业目的。</view>
+      <view class="des">3. 本程序将对您所提供的资料进行严格的管理及保护，本程序将使用相应的技术，防止您的个人资料丢失、被盗用或遭篡改。</view>
+      <view class="des">4. 请您放心使用！</view>
+</view>

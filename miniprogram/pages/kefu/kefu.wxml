@@ -1,0 +1,24 @@
+<!--pages/kefu/kefu.wxml-->
+<view class="contain">
+      <view style="height:20rpx;"></view>
+      <!--顶部图-->
+      <image src="{{banner}}" class="slide-image" />
+      <!--在线咨询-->
+      <view class="card">
+            <view class="card1">
+                  <image class="wechatimg" src="/images/online.png" />
+            </view>
+            <view class="borderbox">
+                  <view class="border"></view>
+            </view>
+            <view class="centercontain">
+                  <view class="name">在线咨询</view>
+                  <view class="des">点击即可在线咨询客服</view>
+            </view>
+            <view class="rightico">
+                        <image class="rightimg" src="/images/right.png" />
+            </view>
+            <button open-type="contact"></button>
+      </view>
+      
+</view>

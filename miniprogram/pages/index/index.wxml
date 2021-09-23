@@ -1,0 +1,114 @@
+<!--pages/index/index.wxml-->
+<!--轮播图-->
+<swiper autoplay="{{autoplay}}" circular="{{circular}}" class="banner">
+     <block wx:for="{{banner}}" wx:key="index">
+          <swiper-item>
+               <image style="width:100%;height:100%;" src="{{item.img}}"></image>
+          </swiper-item>
+     </block>
+</swiper>
+
+<!--帮我取、帮我送、帮我买-->
+<view class="bang">
+     <view class="bang_1" bindtap="go" data-id="/pages/mai/mai">
+          <image src="../../images/bangmai.png"></image>
+          <text>帮我买</text>
+     </view>
+     <view class="bang_1" bindtap="go" data-id="/pages/song/song">
+          <image src="../../images/bangsong.png"></image>
+          <text>帮我送</text>
+     </view>
+     <view class="bang_1" bindtap="go" data-id="/pages/qu/qu">
+          <image src="../../images/bangqu.png"></image>
+          <text>帮我取</text>
+     </view>
+</view>
+
+<!--通知-->
+<van-notice-bar
+  left-icon="volume"
+  background="white"
+  color="#1c2438"
+  text="{{tongzhi}}"
+  custom-class="tongzhi"
+  speed="40"
+/>
+
+<!--代拿快递 代拿外卖等等-->
+<view class="dai">
+     <view class="dai_li1" bindtap="go" data-id="/pages/qu/qu?id=kuaidi">
+             <text>代取快递</text>
+             <image src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210917122534.jpg?sign=82cbf4f14fde7efd5ae40b7e14a4a0ab&t=1631852782"></image>
+     </view>
+     <view class="dai_li1" bindtap="go" data-id="/pages/song/song?id=waimai">
+             <text>代取外卖</text>
+             <image src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210917122543.jpg?sign=9805798e3185615925e3f0811f6a09b7&t=1631852825"></image>
+     </view>
+     <view class="dai_li1" bindtap="go" data-id="/pages/secondhand/secondhand">
+             <text>闲置物品交易</text>
+             <image src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210917122549.jpg?sign=ea645e55c31d8077fdd37559c905a63c&t=1631852851"></image>
+     </view>
+     <view class="dai_li1" bindtap="go" data-id="/pages/other/other">
+             <text>其他跑腿</text>
+             <image src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210917122556.jpg?sign=d86331c5aa18d4689dab36a6d14e5ddf&t=1631852879"></image>
+     </view>
+     <view class="dai_li1" bindtap="daikaifa">
+             <text>鲜花</text>
+             <image src="../../images/xianhua.jpg"></image>
+     </view>
+     <view class="dai_li1" bindtap="daikaifa">
+             <text>礼物</text>
+             <image src="../../images/liwu.jpg"></image>
+     </view>
+</view>
+
+<!--文章-->
+<van-tabs active="{{ active }}" bind:change="onChange" custom-class="wen">
+  <van-tab  title="跑腿资讯">
+            <view class="dakuang">
+          <block wx:if="{{list.length!==0}}" wx:for="{{list}}" wx:key="index">
+            <view class="yige" catchtap="go_detail" data-id="{{item._id}}">
+              <view style="width:58%;margin-right:35rpx;">
+                  <view class="titile" style="font-size:31rpx;">{{item.title}}</view>
+                  <view class="zuoxia" style="color:#999999;font-size:25rpx;margin-top:15rpx;">
+                      <text>{{item.src}}</text>
+                      <block wx:if="{{item.author!==''||item.time!==''}}">
+                        <view class="zuoxia2">
+                            <view>{{item.time}}</view>
+                        </view>
+                      </block>
+                  </view>
+              </view>
+              <image style="width:32%;height:180rpx;" src="{{item.pic}}"></image>
+            </view>   
+          </block>
+          <block wx:if="{{list.length==0}}">
+               <van-empty description="空空如也" />
+          </block>
+        </view>
+  </van-tab>
+  <van-tab title="财经新闻">
+    <view class="dakuang">
+          <block wx:if="{{list.length!==0}}" wx:for="{{list}}" wx:key="index">
+            <view class="yige" catchtap="go_detail" data-id="{{item.content}}">
+              <view style="width:58%;margin-right:35rpx;">
+                  <view class="titile" style="font-size:31rpx;">{{item.title}}</view>
+                  <view class="zuoxia" style="color:#999999;font-size:25rpx;margin-top:15rpx;">
+                      <text>{{item.src}}</text>
+                      <block wx:if="{{item.author!==''||item.time!==''}}">
+                        <view class="zuoxia2">
+                            <view>{{item.time}}</view>
+                        </view>
+                      </block>
+                  </view>
+              </view>
+              <image style="width:32%;height:180rpx;" src="{{item.pic}}"></image>
+            </view>   
+          </block>
+          <block wx:if="{{list.length==0}}">
+               <van-empty description="空空如也" />
+          </block>
+        </view>
+  </van-tab>
+  
+</van-tabs>

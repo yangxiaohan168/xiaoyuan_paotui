@@ -1,0 +1,58 @@
+<!--pages/secondhand/secondhand.wxml-->
+<wxs src="../../common.wxs" module="morejs" />
+
+<van-search
+  value="{{ value }}"
+  placeholder="请输入搜索关键词"
+  bind:search="onSearch"
+  bind:cancel="onCancel"
+/>
+
+
+      
+<block wx:if="{{list.length!==0}}" wx:for="{{list}}" wx:key="index">
+      <view class="tiezi">
+            <view class="tiezi_left">
+                <view class="round">
+                     <image src="{{item.avatarUrl}}"></image>
+                </view>
+            </view>
+            <view class="tiezi_right">
+                 <view class="right_top">
+                    <view class="top">
+                         <view class="top1">
+                            <view>{{item.nickName}}</view>
+                            <view>{{morejs.timelog(item.creat)}}发布</view>
+                         </view>
+                         <view class="top2">
+                          <van-button size="mini" bind:click="make_phone" data-phone="{{item.phone}}" custom-style="width:100rpx;margin-right: 10rpx;" type="info">联系</van-button>
+                         </view>
+                    </view>
+                 </view>
+                 <view class="right_center">
+                    <view class="center1">
+                         {{item.notes}}
+                    </view>
+                    <view class="center2">
+                        <block wx:for="{{item.fileList}}" wx:key="index">
+                             <image bindtap="yulan_img" data-img="{{item.url}}" src="{{item.url}}"></image>
+                        </block>
+                    </view>
+                 </view>
+                 <view class="right_bottom">
+                        <block wx:for="{{item.biaoqian}}" wx:key="index">
+                          <van-button size="mini" custom-style="width:100rpx;margin-left: 10rpx;" plain type="info">{{item}}</van-button>
+                        </block>
+                 </view>
+                 
+            </view>
+        </view>
+</block>
+
+<block wx:if="{{list.length==0}}">
+                  <van-empty description="空空如也" />
+</block>
+
+<view class="fabu" bindtap="go_fabu">
+     <image src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/tianjia.png?sign=3c8735f582a3bdc8ca35a12581f4e44f&t=1631597844"></image>
+</view>

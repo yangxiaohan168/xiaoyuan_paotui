@@ -1,0 +1,85 @@
+/* pages/pub_detail/pub_detail.wxss */
+
+.ziti{
+  font-size: 32rpx;
+  margin-top: 10rpx;
+}
+.des {
+  padding-left: 40rpx;
+  padding-top: 20rpx;
+  font-size: 26rpx;
+  color: #acacac;
+  letter-spacing: 2rpx;
+  line-height: 42rpx;
+}
+.b_notes {
+  width: 100%;
+  padding: 10rpx;
+  display: flex;
+  box-sizing: border-box;
+}
+
+.b_text {
+  width: 94%;
+  height: 200rpx;
+  padding: 20rpx;
+  border-radius: 10rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  background: rgb(238, 238, 238);
+  margin-left: 3%;
+}
+
+.b_text textarea {
+  width: 100%;
+  height: 130rpx;
+  font-size: 28rpx;
+  color: #8c9aa8;
+  border-spacing: 2rpx;
+}
+
+.top{
+  width: 90%;
+  margin-left: 5%;
+  
+  
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+}
+.ditu{
+    width: 90%;
+    margin-left: 3%;
+}
+.shangping_img{
+  width: 150rpx;
+  height: 150rpx;
+}
+
+.img{
+  margin-left: 5%;
+  width: 90%;
+  display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+}
+.img2{
+   width: 210rpx;
+   height: 210rpx;
+}
+.img2 view{
+  color: red;
+  z-index: 5;
+  position: relative; 
+  width: 20rpx;
+  height: 20rpx;
+  margin-top:0rpx;
+  margin-left: 90%;
+}
+.img2 image{
+  width: 190rpx;
+  height: 190rpx;
+  position: relative;
+  z-index: 5;
+}

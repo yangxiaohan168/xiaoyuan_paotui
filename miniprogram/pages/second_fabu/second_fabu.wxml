@@ -1,0 +1,56 @@
+<!--pages/second_fabu/second_fabu.wxml-->
+<van-cell title-class="ziti" icon="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/xuexiao.png?sign=23b8fae8193a28ef3fdfdb7273ab0767&t=1630729072" title="所属校区" bind:click="popup_campus" value="{{choose_campus}}" is-link value-class="ziti"/>
+        <van-popup show="{{ campus_show }}" z-index="100" round position="bottom" duration>
+            <van-picker columns="{{ campus }}" show-toolbar title="请选择校区" bind:confirm="campus_confirm" bind:cancel="campus_cancel" bind:change="campus_change" />
+        </van-popup>
+
+        <van-field
+            value="{{ phone }}"
+            placeholder="请获取手机号码"
+            label="手机号码"
+            left-icon="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/haoma.png?sign=3eb11272079489346b1e4cdc20f31e15&t=1630759423"
+            readonly
+            clearable
+            label-class="ziti"
+            placeholder-style="font-size:32rpx;"
+            use-button-slot
+        >
+            <van-button slot="button" custom-style="width:160rpx;font-size:25rpx" size="small" type="primary" open-type="getPhoneNumber" bind:getphonenumber="get_phone">
+              获取号码
+            </van-button>
+        </van-field>
+
+<view class="des">1. 温馨提示：请上传闲置物品图片，最多3张</view>
+<!-- <view class="img">
+  <van-uploader file-list="{{ fileList }}" bind:after-read="uploadToCloud" bind:delete="delete" accept="image" sizeType multiple="{{multiple}}" max-count="3" capture deletable preview-image/>
+</view> -->
+<view class="img">
+  <!--使用vant组件的uploader有问题，不兼容苹果手机，所以只能手写界面了-->
+  <!-- <van-uploader file-list="{{ fileList }}" bind:before-read="uploadToCloud" bind:delete="delete" use-before-read accept="image" sizeType multiple="{{multiple}}" max-count="9" capture deletable preview-image/> -->
+  <block wx:for="{{ fileList }}" wx:key="index">
+    <view class="img2">
+       <view bindtap="delete" data-id="{{index}}">x</view>
+       <image bindtap="previewImage" data-url="{{item.url}}" src="{{item.url}}"></image>
+    </view> 
+   </block>
+   <image wx:if="{{fileList.length<9}}" bindtap="uploadToCloud" style="width: 200rpx;height: 200rpx;" src="/images/xiangji.png"></image>
+</view>
+
+<view class="des">2. 请输入闲置物品相关说明</view>
+<view class="b_notes">
+            <view class="b_text">
+                  <textarea value="{{notes}}" bindinput="noteInput" maxlength="50" placeholder="请输入闲置物品相关说明，比如：九成新相机..."></textarea>
+                  <view class="b_less">{{note_counts}}/50</view>
+            </view>
+</view>
+<view class="des">3. 请输入闲置物品标签，标签之间用<text style="color: red;">中文逗号，</text>隔开</view>
+<view class="b_notes">
+            <view class="b_text">
+                  <textarea value="{{zifu}}" bindinput="zifuInput" maxlength="15" placeholder="例如：二手相机，高清拍摄"></textarea>
+                  <view class="b_less">{{zifu_counts}}/15</view>
+            </view>
+</view>
+<view class="submit">
+  <van-button round size="small" color="#7232dd" bind:click="getUserProfile">立即发布</van-button>
+
+</view>
