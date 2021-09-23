@@ -3,7 +3,7 @@
 var QQMapWX = require('../../util/qqmap-wx-jssdk.js');
 // 实例化API核心类
 var qqmapsdk = new QQMapWX({
-    key: 'PBFBZ-Y3D66-JUWSY-M2MNG-MI2EZ-SPBBY' // 必填
+    key: '填入您申请的腾讯地图key' // 必填
 });
 const app = getApp();
 const db = wx.cloud.database();

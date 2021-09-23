@@ -28,7 +28,7 @@
     "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#F6F6F6",
-    "navigationBarTitleText": "优我帮",
+    "navigationBarTitleText": "填入您的微信小程序名称",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {

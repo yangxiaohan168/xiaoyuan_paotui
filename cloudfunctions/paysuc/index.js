@@ -1,6 +1,6 @@
 const cloud = require('wx-server-sdk')
 cloud.init({
-  env: 'cloud1-7gfkdvn4d13b54c9'
+  env: '填入您的环境ID'
 })
 
 exports.main = async (event, context) => {
@@ -9,7 +9,7 @@ exports.main = async (event, context) => {
     const result = await cloud.openapi.subscribeMessage.send({
       touser: cloud.getWXContext().OPENID,
       page: 'index',
-      templateId: "HtZ_mS0WpFwT8AQAE72xrDKFWWoIle5OzJ83VYfwu5E",
+      templateId: "填入您申请的订阅消息templateId",
       data: {
         "thing2": {
           "value": event.trade_name

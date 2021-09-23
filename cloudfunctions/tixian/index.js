@@ -1,6 +1,6 @@
 const cloud = require('wx-server-sdk')
 cloud.init({
-  env: 'cloud1-7gfkdvn4d13b54c9'
+  env: '填入您的环境ID'
 })
 const db = cloud.database({
   throwOnNotFound: false,

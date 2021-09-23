@@ -1,6 +1,6 @@
 const cloud = require('wx-server-sdk')
 cloud.init({
-  env: 'cloud1-7gfkdvn4d13b54c9'
+  env: '填入您的环境ID'
 })
 const {
   SmsClient
@@ -10,12 +10,12 @@ const {
 const AppID = 1400572795;  // SDK AppID是1400开头
 
 // 短信应用SDK AppKey ，替换为你自己的 AppKey
-const AppKey = '9cb17922dc1d66986e0d11e5ec9c384b';
+const AppKey = '填入您的AppKey';
 
 // 短信模板ID，需要在短信应用中申请
-const templId = 1119678;
+const templId = 1119678;    ////换成您的短信模板ID，这个是催客户确认收货的短信模板ID，别填错了
 // 签名，替换为你自己申请的签名
-const smsSign = '优我帮';
+const smsSign = '填入您申请的签名';
 
 const db = cloud.database({
   throwOnNotFound: false,
