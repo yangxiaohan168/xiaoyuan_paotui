@@ -165,7 +165,7 @@ Page({
         channel:'财经',
         start:0,
         num:20,
-        appkey:'7d48bc8b87053952'
+        appkey:'填入您申请的appkey'
       },
       success:function(res){
             console.log(res)
