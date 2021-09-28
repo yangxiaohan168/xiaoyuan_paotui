@@ -3,7 +3,7 @@
 var QQMapWX = require('../../util/qqmap-wx-jssdk.js');
 // 实例化API核心类
 var qqmapsdk = new QQMapWX({
-    key: '填入您申请的腾讯地图key' // 必填
+    key: 'PBFBZ-Y3D66-JUWSY-M2MNG-MI2EZ-SPBBY' // 必填
 });
 const app = getApp();
 const db = wx.cloud.database();
@@ -52,7 +52,7 @@ Page({
     cost:3,
     user_parse:false,
     user_id:'',
-
+    
   },
     /**
    * 生命周期函数--监听页面加载
@@ -64,6 +64,12 @@ Page({
       that.get_balance();
       //查询是否有自己发布的未确认的订单，如果有，则跳转确认，如果没有可以继续发布
       that.get_publish();
+  },
+  go_bushouhuo:function(){
+    let that = this;
+    wx.navigateTo({
+      url: '/pages/dizhi/dizhi',
+    })
   },
   //选择收货地址
   choose_endlocation:function(){
@@ -171,59 +177,59 @@ Page({
         })
         return false;
       }
-      if(that.data.radio==1){
-         if(that.data.mai_location=='请选择购买地点'){
-            wx.showToast({
-              title: '请选择购买地点',
-              icon: 'none',
-              duration: 2000
-            })
-            return false;
-         }
-      }
+      // if(that.data.radio==1){
+      //    if(that.data.mai_location=='请选择购买地点'){
+      //       wx.showToast({
+      //         title: '请选择购买地点',
+      //         icon: 'none',
+      //         duration: 2000
+      //       })
+      //       return false;
+      //    }
+      // }
       
-      if(that.data.end_time=='请选择送达时间'){
-        wx.showToast({
-          title: '请选择送达时间',
-          icon: 'none',
-          duration: 2000
-        })
-        return false;
-      }
-      if(!that.data.checked_jia){
-        if(!/^\+?[1-9][0-9]*$/.test(that.data.price)){
-          wx.showToast({
-            title: '商品费必须为非零的正整数',
-            icon: 'none',
-            duration: 2000
-          })
-          return false;
-        }
-      }
-      if(that.data.choose_campus=='请选择校区'){
-        wx.showToast({
-          title: '请选择校区',
-          icon: 'none',
-          duration: 2000
-        })
-        return false;
-      }
-      if(that.data.shoujian_name==''){
-        wx.showToast({
-          title: '请输入收货人',
-          icon: 'none',
-          duration: 2000
-        })
-        return false;
-      }
-      if(that.data.phone==''){
-        wx.showToast({
-          title: '请获取手机号码',
-          icon: 'none',
-          duration: 2000
-        })
-        return false;
-      }
+      // if(that.data.end_time=='请选择送达时间'){
+      //   wx.showToast({
+      //     title: '请选择送达时间',
+      //     icon: 'none',
+      //     duration: 2000
+      //   })
+      //   return false;
+      // }
+      // if(!that.data.checked_jia){
+      //   if(!/^\+?[1-9][0-9]*$/.test(that.data.price)){
+      //     wx.showToast({
+      //       title: '商品费必须为非零的正整数',
+      //       icon: 'none',
+      //       duration: 2000
+      //     })
+      //     return false;
+      //   }
+      // }
+      // if(that.data.choose_campus=='请选择校区'){
+      //   wx.showToast({
+      //     title: '请选择校区',
+      //     icon: 'none',
+      //     duration: 2000
+      //   })
+      //   return false;
+      // }
+      // if(that.data.shoujian_name==''){
+      //   wx.showToast({
+      //     title: '请输入收货人',
+      //     icon: 'none',
+      //     duration: 2000
+      //   })
+      //   return false;
+      // }
+      // if(that.data.phone==''){
+      //   wx.showToast({
+      //     title: '请获取手机号码',
+      //     icon: 'none',
+      //     duration: 2000
+      //   })
+      //   return false;
+      // }
       if(that.data.end_location=='请选择收货地址'){
         wx.showToast({
           title: '请选择收货地址',
@@ -261,14 +267,17 @@ Page({
       }
 
       if(that.data.user_parse&&that.data.balance>=that.data.cost){
-          if(that.data.mai_location!=='请选择购买地点'&&!that.data.no_jisuan){
-              //如果都有了购买地点和收货地址，则使用钱包支付，先获取线路和计算距离，再调用parse_pay函数
-              that.get_xianlu();
-          }
-          if(that.data.mai_location=='请选择购买地点'){
-              //如果没有购买地点，则直接调用parse_pay函数进行钱包支付
-              that.parse_pay();
-          }
+
+          // if(that.data.mai_location!=='请选择购买地点'&&!that.data.no_jisuan){
+          //     //如果都有了购买地点和收货地址，则使用钱包支付，先获取线路和计算距离，再调用parse_pay函数
+          //     that.get_xianlu();
+          // }
+          // if(that.data.mai_location=='请选择购买地点'){
+          //     //如果没有购买地点，则直接调用parse_pay函数进行钱包支付
+          //     that.parse_pay();
+          // }
+
+          that.parse_pay();
           
       }
       if(!that.data.user_parse){
@@ -913,7 +922,14 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+       let that = this;
+       console.log(app.globalData.dizhi)
+       that.setData({
+          choose_campus:app.globalData.dizhi.campus,
+          end_location:app.globalData.dizhi.dizhi,
+          shoujian_name:app.globalData.dizhi.name,
+          phone:app.globalData.dizhi.phone,
+       })
   },
 
   /**

@@ -1,2 +1,25 @@
 <!--pages/dizhi/dizhi.wxml-->
-<text>pages/dizhi/dizhi.wxml</text>
+
+<block wx:if="{{list.length!==0}}" wx:for="{{list}}" wx:key="index">
+      <view class="dizhi" bindtap="xuan" data-xuan="{{item}}">
+          <view class="dizhi_top">
+                <view>{{item.name}}</view>
+                <view>{{item.phone}}</view>
+                <van-button data-id="{{item._id}}" catchtap="dele" size="mini" custom-style="width:150rpx;" plain type="info">删除</van-button> 
+          </view>
+          <view class="dizhi_center">
+                <view>{{item.campus}}</view>
+          </view>
+          <view class="dizhi_bottom">
+                <view>{{item.dizhi}}</view>
+          </view>
+      </view>
+</block>
+
+<block wx:if="{{list.length==0}}">
+  <van-empty description="空空如也" />
+</block>
+
+<view class="jia">
+  <van-button round size="small" color="#7232dd" bind:click="go_adddizhi">添加地址</van-button>
+</view>

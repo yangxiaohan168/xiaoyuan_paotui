@@ -1,0 +1,12 @@
+/* pages/add_dizhi/add_dizhi.wxss */
+
+
+.ziti{
+  font-size: 32rpx;
+  margin-top: 10rpx;
+}
+.jia{
+  display: flex;
+  justify-content: center;
+  margin-top: 100rpx;
+}

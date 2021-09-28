@@ -1,0 +1,46 @@
+<!--pages/add_dizhi/add_dizhi.wxml-->
+<van-cell title-class="ziti" icon="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/xuexiao.png?sign=23b8fae8193a28ef3fdfdb7273ab0767&t=1630729072" title="所属校区" bind:click="popup_campus" value="{{choose_campus}}" is-link value-class="ziti"/>
+        <van-popup show="{{ campus_show }}" z-index="100" round position="bottom" duration>
+            <van-picker columns="{{ campus }}" show-toolbar title="请选择校区" bind:confirm="campus_confirm" bind:cancel="campus_cancel" bind:change="campus_change" />
+        </van-popup>
+
+       <van-field
+            value="{{ shoujian_name }}"
+            placeholder="例如：彭于晏"
+            label="收货人"
+            left-icon="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/shoujian.png?sign=95962c64d2b5707bb2ce66ccb14020d0&t=1630732891"
+            clearable
+            label-class="ziti"
+            placeholder-style="font-size:32rpx;"
+            bind:change="onChange_shoujian"
+        />
+
+        <van-field
+            value="{{ phone }}"
+            placeholder="请获取手机号码"
+            label="手机号码"
+            left-icon="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/haoma.png?sign=3eb11272079489346b1e4cdc20f31e15&t=1630759423"
+            readonly
+            clearable
+            label-class="ziti"
+            placeholder-style="font-size:32rpx;"
+            use-button-slot
+        >
+            <van-button slot="button" custom-style="width:160rpx;font-size:25rpx" size="small" type="primary" open-type="getPhoneNumber" bind:getphonenumber="get_phone">
+              获取号码
+            </van-button>
+        </van-field>  
+        <van-field
+            value="{{ dizhi }}"
+            placeholder="请输入详细地址"
+            label="详细地址"
+            left-icon="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/zhongdian.png?sign=8da9e8720dce716399b44feffef54620&t=1630768449"
+            clearable
+            label-class="ziti"
+            input-class="ziti"
+            placeholder-style="font-size:32rpx;"
+            bind:change="onChange_inputlocation"
+        />
+        <view class="jia">
+            <van-button round size="small" color="#7232dd" bind:click="check">添加地址</van-button>
+        </view>

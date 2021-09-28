@@ -48,6 +48,12 @@ Page({
        //查询是否有自己发布的未确认的订单，如果有，则跳转确认，如果没有可以继续发布
        that.get_publish();
   },
+  go_bushouhuo:function(){
+    let that = this;
+    wx.navigateTo({
+      url: '/pages/dizhi/dizhi',
+    })
+  },
   get_publish:function(){
     let that = this;
     db.collection('publish').where({
@@ -144,30 +150,30 @@ Page({
     
    
    
-    if(that.data.choose_campus=='请选择校区'){
-      wx.showToast({
-        title: '请选择校区',
-        icon: 'none',
-        duration: 2000
-      })
-      return false;
-    }
-    if(that.data.shoujian_name==''){
-      wx.showToast({
-        title: '请输入收货人',
-        icon: 'none',
-        duration: 2000
-      })
-      return false;
-    }
-    if(that.data.phone==''){
-      wx.showToast({
-        title: '请获取手机号码',
-        icon: 'none',
-        duration: 2000
-      })
-      return false;
-    }
+    // if(that.data.choose_campus=='请选择校区'){
+    //   wx.showToast({
+    //     title: '请选择校区',
+    //     icon: 'none',
+    //     duration: 2000
+    //   })
+    //   return false;
+    // }
+    // if(that.data.shoujian_name==''){
+    //   wx.showToast({
+    //     title: '请输入收货人',
+    //     icon: 'none',
+    //     duration: 2000
+    //   })
+    //   return false;
+    // }
+    // if(that.data.phone==''){
+    //   wx.showToast({
+    //     title: '请获取手机号码',
+    //     icon: 'none',
+    //     duration: 2000
+    //   })
+    //   return false;
+    // }
     if(that.data.end_location=='请选择收货地址'){
       wx.showToast({
         title: '请选择收货地址',
@@ -176,14 +182,14 @@ Page({
       })
       return false;
    }
-   if(that.data.end_time=='请选择送达时间'){
-    wx.showToast({
-      title: '请选择送达时间',
-      icon: 'none',
-      duration: 2000
-    })
-    return false;
-  }
+  //  if(that.data.end_time=='请选择送达时间'){
+  //   wx.showToast({
+  //     title: '请选择送达时间',
+  //     icon: 'none',
+  //     duration: 2000
+  //   })
+  //   return false;
+  // }
     if(!/^\+?[1-9][0-9]*$/.test(that.data.cost)){
       wx.showToast({
         title: '跑腿费必须为非零的正整数',
@@ -690,7 +696,14 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    let that = this;
+    console.log(app.globalData.dizhi)
+    that.setData({
+       choose_campus:app.globalData.dizhi.campus,
+       end_location:app.globalData.dizhi.dizhi,
+       shoujian_name:app.globalData.dizhi.name,
+       phone:app.globalData.dizhi.phone,
+    })
   },
 
   /**

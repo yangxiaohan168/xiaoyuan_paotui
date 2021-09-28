@@ -1,6 +1,7 @@
 // pages/publish/publish.js
 const app = getApp();
 const db = wx.cloud.database();
+const _ = db.command;
 Page({
 
   /**
@@ -49,7 +50,7 @@ Page({
                         //实时刷新单子列表
                         if(that.data.tab=='全部'){
                               let cha_obj = {
-                                    state:1,
+                                    state:_.in([1, 3]),
                               }
                               that.get(cha_obj);
                         }
@@ -90,7 +91,7 @@ Page({
                         //实时刷新单子列表
                         if(that.data.tab=='全部'){
                               let cha_obj = {
-                                    state:1,
+                                    state:_.in([1, 3]),
                                     choose_campus:app.globalData.campus,
                               }
                               that.get(cha_obj);
@@ -352,7 +353,7 @@ Page({
             //实时刷新单子列表
             if(that.data.tab=='全部'){
             let cha_obj = {
-                  state:1,
+                  state:_.in([1, 3]),
             }
             that.get(cha_obj);
             }
@@ -386,7 +387,7 @@ Page({
              //实时刷新单子列表
              if(that.data.tab=='全部'){
                   let cha_obj = {
-                        state:1,
+                        state:_.in([1, 3]),
                         choose_campus:app.globalData.campus,
                   }
                   that.get(cha_obj);
@@ -911,7 +912,7 @@ Page({
                      //实时刷新单子列表
                      if(that.data.tab=='全部'){
                         let cha_obj = {
-                              state:1,
+                              state:_.in([1, 3]),
                               choose_campus:app.globalData.campus,
                         }
                         that.get(cha_obj);
@@ -996,7 +997,7 @@ Page({
              //实时刷新单子列表
             if(that.data.tab=='全部'){
                   let cha_obj = {
-                        state:1,
+                        state:_.in([1, 3]),
                   }
                   that.get_quanduo(cha_obj);
             }
@@ -1030,7 +1031,7 @@ Page({
           //实时刷新单子列表
             if(that.data.tab=='全部'){
                   let cha_obj = {
-                        state:1,
+                        state:_.in([1, 3]),
                         choose_campus:app.globalData.campus,
                   }
                   that.get_quanduo(cha_obj);

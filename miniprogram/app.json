@@ -22,7 +22,8 @@
     "pages/pub_detail/pub_detail",
     "pages/pingjia/pingjia",
     "pages/chakan_pingjia/chakan_pingjia",
-    "pages/yijian/yijian"
+    "pages/yijian/yijian",
+    "pages/add_dizhi/add_dizhi"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

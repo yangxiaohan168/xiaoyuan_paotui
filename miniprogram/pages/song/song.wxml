@@ -1,6 +1,7 @@
 <!--pages/song/song.wxml-->
 <view class="jijian">
-<van-cell title-class="ziti" icon="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/xuexiao.png?sign=23b8fae8193a28ef3fdfdb7273ab0767&t=1630729072" title="所属校区" bind:click="popup_campus" value="{{choose_campus}}" is-link value-class="ziti"/>
+    <van-cell title-class="ziti" icon="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/jieshu.png?sign=c5dbe4f99c0a46055a07623420fb5df4&t=1630840556" title="取货地址" bind:click="go_bushouhuo" value="{{start_location}}" is-link value-class="ziti"/>
+<!-- <van-cell title-class="ziti" icon="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/xuexiao.png?sign=23b8fae8193a28ef3fdfdb7273ab0767&t=1630729072" title="所属校区" bind:click="popup_campus" value="{{choose_campus}}" is-link value-class="ziti"/>
         <van-popup show="{{ campus_show }}" z-index="100" round position="bottom" duration>
             <van-picker columns="{{ campus }}" show-toolbar title="请选择校区" bind:confirm="campus_confirm" bind:cancel="campus_cancel" bind:change="campus_change" />
         </van-popup>
@@ -41,13 +42,13 @@
             input-class="ziti"
             placeholder-style="font-size:32rpx;"
             bind:change="onChange_inputstart"
-        />
+        /> -->
         
         <van-cell title-class="ziti" icon="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/xuexiao.png?sign=23b8fae8193a28ef3fdfdb7273ab0767&t=1630729072" title="物品类型" bind:click="popup_goods" value="{{choose_goods}}" is-link value-class="ziti"/>
         <van-popup show="{{ goods_show }}" z-index="100" round position="bottom" duration>
             <van-picker columns="{{ goods }}" show-toolbar title="请选择物品类型" bind:confirm="goods_confirm" bind:cancel="goods_cancel" bind:change="goods_change" />
         </van-popup>
-        <van-cell title-class="ziti" icon="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/kaishi.png?sign=72e2bbd4881cabcd403e5795e9a4b58e&t=1630840510" title="取件时间" bind:click="popup_starttime" value="{{start_time}}" is-link value-class="ziti"/>
+        <!-- <van-cell title-class="ziti" icon="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/kaishi.png?sign=72e2bbd4881cabcd403e5795e9a4b58e&t=1630840510" title="取件时间" bind:click="popup_starttime" value="{{start_time}}" is-link value-class="ziti"/>
         <van-popup show="{{ starttime_show }}" z-index="100" round position="bottom" duration>
             <van-datetime-picker
               type="year-month date time"
@@ -57,7 +58,7 @@
               bind:confirm="starttime_confirm"
               bind:cancel="starttime_cancel"
             />
-        </van-popup>
+        </van-popup> -->
         <view class="checked">
             <text>是否重物</text>
             <van-switch checked="{{ checked }}" size="35rpx" bind:change="onChange_check" />
@@ -92,11 +93,11 @@
             placeholder-style="font-size:32rpx;"
             bind:change="onChange_shoujianphone"
         />
-        <van-cell title-class="ziti" icon="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/zhongdian.png?sign=8da9e8720dce716399b44feffef54620&t=1630768449" title="收件地址" bind:click="choose_endlocation" value="{{end_location}}" is-link value-class="ziti"/>
+        <!-- <van-cell title-class="ziti" icon="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/zhongdian.png?sign=8da9e8720dce716399b44feffef54620&t=1630768449" title="收件地址" bind:click="choose_endlocation" value="{{end_location}}" is-link value-class="ziti"/> -->
         <van-field
             value="{{ end_location }}"
-            placeholder="搜索不到地点，手动输入"
-            label="手动输入收件地点"
+            placeholder="请输入收货地址"
+            label="收件地点"
             left-icon="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/zhongdian.png?sign=8da9e8720dce716399b44feffef54620&t=1630768449"
             clearable
             label-class="ziti"
@@ -105,7 +106,7 @@
             bind:change="onChange_inputend"
         />
 
-        <van-cell title-class="ziti" icon="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/jieshu.png?sign=c5dbe4f99c0a46055a07623420fb5df4&t=1630840556" title="送达时间" bind:click="popup_endtime" value="{{end_time}}" is-link value-class="ziti"/>
+        <!-- <van-cell title-class="ziti" icon="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/jieshu.png?sign=c5dbe4f99c0a46055a07623420fb5df4&t=1630840556" title="送达时间" bind:click="popup_endtime" value="{{end_time}}" is-link value-class="ziti"/>
         <van-popup show="{{ endtime_show }}" z-index="100" round position="bottom" duration>
             <van-datetime-picker
               type="year-month date time"
@@ -115,7 +116,7 @@
               bind:confirm="endtime_confirm"
               bind:cancel="endtime_cancel"
             />
-        </van-popup>
+        </van-popup> -->
 
 </view>
 

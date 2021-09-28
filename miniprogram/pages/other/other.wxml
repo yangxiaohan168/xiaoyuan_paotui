@@ -24,7 +24,7 @@
 
 </view>
 
-
+<!-- 
 <van-cell title-class="ziti" icon="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/xuexiao.png?sign=23b8fae8193a28ef3fdfdb7273ab0767&t=1630729072" title="所属校区" bind:click="popup_campus" value="{{choose_campus}}" is-link value-class="ziti"/>
         <van-popup show="{{ campus_show }}" z-index="100" round position="bottom" duration>
             <van-picker columns="{{ campus }}" show-toolbar title="请选择校区" bind:confirm="campus_confirm" bind:cancel="campus_cancel" bind:change="campus_change" />
@@ -79,7 +79,9 @@
               bind:confirm="endtime_confirm"
               bind:cancel="endtime_cancel"
             />
-        </van-popup>
+        </van-popup> -->
+        <van-cell title-class="ziti" icon="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/jieshu.png?sign=c5dbe4f99c0a46055a07623420fb5df4&t=1630840556" title="收货地址" bind:click="go_bushouhuo" value="{{end_location}}" is-link value-class="ziti"/>
+        
         <van-field
             value="{{ cost }}"
             placeholder="只能输入非零的正整数"

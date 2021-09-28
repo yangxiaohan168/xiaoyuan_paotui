@@ -3,7 +3,7 @@
 var QQMapWX = require('../../util/qqmap-wx-jssdk.js');
 // 实例化API核心类
 var qqmapsdk = new QQMapWX({
-    key: '填入您申请的腾讯地图key' // 必填
+    key: 'PBFBZ-Y3D66-JUWSY-M2MNG-MI2EZ-SPBBY' // 必填
 });
 const app = getApp();
 const db = wx.cloud.database();
@@ -25,7 +25,7 @@ Page({
     distance:0,
     duration:0,
     phone:'',
-    start_location:'请选择',
+    start_location:'',
     end_location:'请选择',
     start_latitude:'',
     start_longitude:'',
@@ -581,14 +581,14 @@ Page({
   //检查各个输入是否都已经输入
   onSubmit:function(){
     let that = this;
-    if(that.data.choose_campus=='请选择校区'){
-      wx.showToast({
-        title: '请选择校区',
-        icon: 'none',
-        duration: 2000
-      })
-      return false;
-    }
+    // if(that.data.choose_campus=='请选择校区'){
+    //   wx.showToast({
+    //     title: '请选择校区',
+    //     icon: 'none',
+    //     duration: 2000
+    //   })
+    //   return false;
+    // }
     if(that.data.title==''){
       wx.showToast({
         title: '请输入任务标题',
@@ -605,23 +605,23 @@ Page({
     //   })
     //   return false;
     // }
-    if(that.data.shoujian_name==''){
-      wx.showToast({
-        title: '请输入收件人',
-        icon: 'none',
-        duration: 2000
-      })
-      return false;
-    }
-    if(that.data.phone==''){
-      wx.showToast({
-        title: '请获取手机号码',
-        icon: 'none',
-        duration: 2000
-      })
-      return false;
-    }
-    if(that.data.start_location=='请选择'){
+    // if(that.data.shoujian_name==''){
+    //   wx.showToast({
+    //     title: '请输入收件人',
+    //     icon: 'none',
+    //     duration: 2000
+    //   })
+    //   return false;
+    // }
+    // if(that.data.phone==''){
+    //   wx.showToast({
+    //     title: '请获取手机号码',
+    //     icon: 'none',
+    //     duration: 2000
+    //   })
+    //   return false;
+    // }
+    if(that.data.start_location==''){
       wx.showToast({
         title: '请选择取件地址',
         icon: 'none',
@@ -645,14 +645,14 @@ Page({
     //   })
     //   return false;
     // }
-    if(that.data.end_time=='请选择送达时间'){
-      wx.showToast({
-        title: '请选择送达时间',
-        icon: 'none',
-        duration: 2000
-      })
-      return false;
-    }
+    // if(that.data.end_time=='请选择送达时间'){
+    //   wx.showToast({
+    //     title: '请选择送达时间',
+    //     icon: 'none',
+    //     duration: 2000
+    //   })
+    //   return false;
+    // }
     if(!/^\+?[1-9][0-9]*$/.test(that.data.cost)){
       wx.showToast({
         title: '任务费用必须为非零的正整数',
@@ -687,14 +687,14 @@ Page({
       return false;
     }
     if(that.data.user_parse&&that.data.balance>=that.data.cost){
-      if(!that.data.no_jisuan){
-          //使用钱包支付，先获取线路和计算距离，再调用parse_pay函数
-          that.get_xianlu();
-      }
-      if(that.data.no_jisuan){
-        that.parse_pay();
-      }
-        
+      // if(!that.data.no_jisuan){
+      //     //使用钱包支付，先获取线路和计算距离，再调用parse_pay函数
+      //     that.get_xianlu();
+      // }
+      // if(that.data.no_jisuan){
+      //   that.parse_pay();
+      // }
+      that.parse_pay();
     }
     if(!that.data.user_parse){
 
@@ -924,7 +924,20 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    let that = this;
+    console.log(app.globalData.dizhi)
+    that.setData({
+       choose_campus:app.globalData.dizhi.campus,
+       end_location:app.globalData.dizhi.dizhi,
+       shoujian_name:app.globalData.dizhi.name,
+       phone:app.globalData.dizhi.phone,
+    })
+  },
+  go_bushouhuo:function(){
+    let that = this;
+    wx.navigateTo({
+      url: '/pages/dizhi/dizhi',
+    })
   },
 
   /**

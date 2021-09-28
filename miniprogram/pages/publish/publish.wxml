@@ -6,7 +6,37 @@
         
             <block wx:if="{{list.length!==0}}" wx:for="{{list}}" wx:key="index">
               <!--其他跑腿订单-->
-              <view wx:if="{{item.category=='其他跑腿'}}" class="dingdan">
+              <view wx:if="{{item.category=='其他跑腿'&&item.state==1}}" class="dingdan">
+                 <view class="dingdan_top">
+                     <view class="dingdan_top1">
+                          <view style="width: 10%;">{{index+1}}、</view>
+                          <image style="width: 50rpx;height: 50rpx;margin-left: 20rpx;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/else.png?sign=ac7752225ccd23667eccf44a4139a1de&t=1631359659"></image>
+                     </view>
+                     <view>
+                         <text>{{morejs.timelog(item.creat)}}发布</text>
+                     </view>
+                     <view style="color: red;">{{item.cost}}元</view>
+                 </view>
+                 <view class="dingdan_center">
+                      <view class="dingdan_centermai">
+                           <view class="dingdan_centernotes"><view style="width: 50%;display: flex;justify-content: flex-start; background-color: white;overflow: hidden;margin-left: 20%;">{{item.notes}}</view><view>...</view></view>
+                           
+                      </view>
+                
+                      <text>↓</text>
+                      
+                      <view>
+                          {{item.end_location}}
+                      </view>
+                 </view>
+                
+                 <view class="bottom" wx:if="{{anniu_show!==index}}">
+                          <van-button data-anniu_show="{{index}}" size="mini" bind:click="jiedan" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="danger">立即接单</van-button>
+                          <van-button size="mini" custom-style="width:150rpx;margin-left:20rpx;margin-right:20rpx;" bind:click="chakan" data-id="{{item._id}}" round type="primary">查看详情</van-button>
+                 </view>
+              </view>
+              <!--其他跑腿的 已完成-->
+              <view wx:if="{{item.category=='其他跑腿'&&item.state==3}}" class="dingdan">
                  <view class="dingdan_top">
                      <view class="dingdan_top1">
                           <view style="width: 10%;">{{index+1}}、</view>
@@ -31,12 +61,11 @@
                  </view>
                 
                  <view class="bottom" wx:if="{{anniu_show!==index}}">
-                          <van-button data-anniu_show="{{index}}" size="mini" bind:click="jiedan" data-id="{{item._id}}"  custom-style="width:150rpx;" round type="danger">立即接单</van-button>
-                          <van-button size="mini" custom-style="width:150rpx;margin-left:20rpx;margin-right:20rpx;" bind:click="chakan" data-id="{{item._id}}" round type="primary">查看详情</van-button>
+                        <image style="width: 100rpx;height: 100rpx;" src="/images/yiwan.png"></image>
                  </view>
               </view>
               <!--帮我买-->
-              <view wx:if="{{item.category=='帮我买'}}" class="dingdan">
+              <view wx:if="{{item.category=='帮我买'&&item.state==1}}" class="dingdan">
                  <view class="dingdan_top">
                      <view class="dingdan_top1">
                           <view style="width: 10%;">{{index+1}}、</view>
@@ -71,8 +100,43 @@
                           <van-button size="mini" bind:click="chakan" data-id="{{item._id}}" custom-style="width:150rpx; margin-left:20rpx;margin-right:20rpx;" round type="primary">查看详情</van-button>
                  </view>
               </view>
+              <!--帮我买已完成-->
+              <view wx:if="{{item.category=='帮我买'&&item.state==3}}" class="dingdan">
+                 <view class="dingdan_top">
+                     <view class="dingdan_top1">
+                          <view style="width: 10%;">{{index+1}}、</view>
+                          <image style="width: 50rpx;height: 50rpx;margin-left: 20rpx;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/mai.png?sign=41e514a9e78de86b6359f634cdd4351a&t=1631280757"></image>
+                     </view>
+                     <view>
+                         <text>{{morejs.timelog(item.creat)}}发布</text>
+                     </view>
+                     <view style="color: red;">{{item.cost}}元</view>
+                 </view>
+                 <view class="dingdan_center">
+                      <view class="dingdan_centerleft">
+                           <view class="dingdan_centermai"><view style="width: 80%;white-space: nowrap; background-color: white;overflow: hidden;">{{item.notes}}</view><view>...</view></view>
+                      </view>
+                      <view wx:if="{{item.mai_location=='请选择购买地点'}}">（就近购买）</view>
+                      <view style="width: 95%;display: flex;justify-content: center; align-items: center;" wx:if="{{item.mai_location!=='请选择购买地点'}}">（{{item.mai_location}}）</view>
+                      <text>↓</text>
+                      
+                      <view>
+                          {{item.end_location}}
+                      </view>
+                 </view>
+                 <view class="dingdan_bottom" >
+                        <van-button wx:if="{{item.distance!==0}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">距离:{{item.distance}}米</van-button>
+                        <van-button wx:if="{{item.distance!==0}}" size="mini" custom-style="width:150rpx;margin-left:20rpx;" plain type="info">骑行:{{item.duration}}分钟</van-button> 
+                        <van-button wx:if="{{item.price!==''}}" size="mini" custom-style="width:200rpx;margin-left:20rpx;" plain type="info">预估商品费:{{item.price}}元</van-button> 
+                        <van-button wx:if="{{item.price==''}}" size="mini" custom-style="width:200rpx;margin-left:20rpx;" plain type="info">商品费当面核对</van-button> 
+                        
+                 </view>
+                 <view class="bottom" wx:if="{{anniu_show!==index}}">
+                    <image style="width: 100rpx;height: 100rpx;" src="/images/yiwan.png"></image>
+                 </view>
+              </view>
               <!--帮我送-->
-              <view wx:if="{{item.category=='帮我送'}}" class="dingdan">
+              <view wx:if="{{item.category=='帮我送'&&item.state==1}}" class="dingdan">
                  <view class="dingdan_top">
                      <view class="dingdan_top1">
                           <view style="width: 10%;">{{index+1}}、</view>
@@ -106,8 +170,42 @@
                           <van-button size="mini" bind:click="chakan" data-id="{{item._id}}" custom-style="width:150rpx;margin-left:20rpx;margin-right:20rpx;" round type="primary">查看详情</van-button>
                  </view>
               </view>
+              <!--帮我送已完成-->
+              <view wx:if="{{item.category=='帮我送'&&item.state==3}}" class="dingdan">
+                 <view class="dingdan_top">
+                     <view class="dingdan_top1">
+                          <view style="width: 10%;">{{index+1}}、</view>
+                          <image style="width: 50rpx;height: 50rpx;margin-left: 20rpx;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/songla.png?sign=0978a0aefa81e7e2ebea53813ac65a2b&t=1631328457"></image>
+                     </view>
+                     <view>
+                         <text>{{morejs.timelog(item.creat)}}发布</text>
+                     </view>
+                     <view style="color: red;">{{item.cost}}元</view>
+                 </view>
+                 <view class="dingdan_center">
+                      <view class="dingdan_centerleft">
+                           <view>{{item.start_location}}</view>
+                           
+                          
+                      </view>
+                
+                      <text>↓</text>
+                      
+                      <view>
+                          {{item.end_location}}
+                      </view>
+                 </view>
+                 <view class="dingdan_bottom">
+                        <van-button wx:if="{{item.distance!==0}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">距离:{{item.distance}}米</van-button>
+                        <van-button wx:if="{{item.distance!==0}}" size="mini" custom-style="width:150rpx;margin-left:20rpx;" plain type="info">骑行:{{item.duration}}分钟</van-button> 
+                        <van-button size="mini" custom-style="width:200rpx;margin-left:20rpx;" plain type="info">送{{item.choose_goods}}</van-button> 
+                 </view>
+                 <view class="bottom" wx:if="{{anniu_show!==index}}">
+                    <image style="width: 100rpx;height: 100rpx;" src="/images/yiwan.png"></image>
+                 </view>
+              </view>
               <!--帮我取-->
-              <view wx:if="{{item.category=='帮我取'}}" class="dingdan">
+              <view wx:if="{{item.category=='帮我取'&&item.state==1}}" class="dingdan">
                  <view class="dingdan_top">
                      <view class="dingdan_top1">
                           <view style="width: 10%;">{{index+1}}、</view>
@@ -142,8 +240,48 @@
                           <van-button size="mini" bind:click="chakan" data-id="{{item._id}}" custom-style="width:150rpx;margin-left:20rpx;margin-right:20rpx;" round type="primary">查看详情</van-button>
                  </view>
               </view>
+              <!--帮我取已完成-->
+              <view wx:if="{{item.category=='帮我取'&&item.state==3}}" class="dingdan">
+                 <view class="dingdan_top">
+                     <view class="dingdan_top1">
+                          <view style="width: 10%;">{{index+1}}、</view>
+                          <image style="width: 50rpx;height: 50rpx;margin-left: 20rpx;" src="https://636c-cloud1-7gfkdvn4d13b54c9-1306992154.tcb.qcloud.la/icon/qu.png?sign=73dd07dfb283a347b03aca73ff51de8c&t=1631329366"></image>
+                     </view>
+                     <view>
+                         <text>{{morejs.timelog(item.creat)}}发布</text>
+                     </view>
+                     <view style="color: red;">{{item.cost}}元</view>
+                 </view>
+                 <view class="dingdan_center">
+                      <view class="dingdan_centerleft">
+                           <view>{{item.start_location}}</view>
+                           
+                          
+                      </view>
+                
+                      <text>↓</text>
+                      
+                      <view>
+                          {{item.end_location}}
+                      </view>
+                 </view>
+                 <view class="dingdan_bottom" >
+                        <van-button wx:if="{{item.distance!==0}}" size="mini" custom-style="width:150rpx;margin-left: 2%;" plain type="info">距离:{{item.distance}}米</van-button>
+                        <van-button wx:if="{{item.distance!==0}}" size="mini" custom-style="width:150rpx;margin-left:20rpx;" plain type="info">骑行:{{item.duration}}分钟</van-button> 
+                        <van-button size="mini" custom-style="width:150rpx;margin-left:20rpx;" plain type="info">{{item.title}}</van-button> 
+                        <van-button size="mini" custom-style="width:250rpx;margin-left:20rpx;" plain type="info">接单可看帮取信息</van-button>
+                 </view>
+                 <view class="bottom" wx:if="{{anniu_show!==index}}">
+                    <image style="width: 100rpx;height: 100rpx;" src="/images/yiwan.png"></image>
+
+                 </view>
+              </view>
+              
               
             </block>
+
+           
+
             <block wx:if="{{list.length==0}}">
                   <van-empty description="空空如也" />
             </block>

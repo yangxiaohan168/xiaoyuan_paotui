@@ -1,6 +1,6 @@
 <!--pages/pub_detail/pub_detail.wxml-->
 <block wx:if="{{info.category=='其他跑腿'}}">
-                <view wx:if="{{info.notes!==''}}" class="des">这是备注</view>
+                <view wx:if="{{info.notes!==''}}" class="des">这是跑腿备注</view>
                   <view class="b_notes">
                     <view class="b_text">
                           <textarea value="{{info.notes}}"  disabled ></textarea>
@@ -10,9 +10,10 @@
         
       </view>
 
-      <block wx:if="{{info.fileList!==0}}" wx:for="{{info.fileList}}" wx:key="index">
+      <block wx:if="{{info.fileList!==0&&info.state!==1}}" wx:for="{{info.fileList}}" wx:key="index">
               <van-button bind:click="xiazai" data-url="{{item.url}}" type="primary" size="mini">第{{index+1}}个文件</van-button>
       </block>
+      <view wx:if="{{info.fileList!==0&&info.state==1}}" class="des" style="color: red;">接单后才可下载打印文件</view>
 
       <view class="top">
         <van-field
@@ -105,7 +106,7 @@
                           <textarea value="{{info.notes}}"  disabled ></textarea>
                     </view>
                   </view>
-              <block wx:if="{{info.fileList.length!==0}}">
+              <block wx:if="{{info.fileList.length!==0&&info.state!==1}}">
                 <view class="des"> 温馨提示：这是取件截图</view>
                 <view class="img" >
                         <!--使用vant组件的uploader有问题，不兼容苹果手机，所以只能手写界面了-->
