@@ -230,7 +230,7 @@ Page({
       //   })
       //   return false;
       // }
-      if(that.data.end_location=='请选择收货地址'){
+      if(that.data.end_location=='请选择收货地址'||!that.data.end_location){
         wx.showToast({
           title: '请选择收货地址',
           icon: 'none',

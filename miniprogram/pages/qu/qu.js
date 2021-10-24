@@ -629,7 +629,7 @@ Page({
       })
       return false;
     }
-    if(that.data.end_location=='请选择'){
+    if(that.data.end_location=='请选择'||!that.data.end_location){
       wx.showToast({
         title: '请选择送达地址',
         icon: 'none',

@@ -97,9 +97,9 @@ Page({
             duration: 2000
           })
           //获取失败，调用重载接口再试一次
-          wx.reLaunch({
-            url: '/pages/index/index',
-          })
+          //wx.reLaunch({
+          //  url: '/pages/index/index',
+          //})
        }
     
      })

@@ -1,7 +1,9 @@
 // 云函数入口文件
 const cloud = require('wx-server-sdk')
 const TcbRouter = require('tcb-router'); //云函数路由
-cloud.init()
+cloud.init({
+  env: '填入您的环境ID'
+})
 
 const db = cloud.database();
 const _ = db.command;

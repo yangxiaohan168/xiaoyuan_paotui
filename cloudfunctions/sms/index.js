@@ -16,8 +16,9 @@ const templId = 1118786;        //换成您的短信模板ID，这个是接单�
 const smsSign = '填入您申请的签名';
 
 // 实例化smsClient
-
-cloud.init();
+cloud.init({
+  env: '填入您的环境ID'
+});
 
 // 云函数入口函数
 exports.main = async (event, context) => {

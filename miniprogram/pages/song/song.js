@@ -264,9 +264,9 @@ starttime_cancel:function(){
     //   })
     //   return false;
     // }
-    if(that.data.start_location=="请选择"){
+    if(that.data.start_location=="请选择"||!that.data.start_location){
       wx.showToast({
-        title: '请选择寄件地址',
+        title: '请选择取货地址',
         icon: 'none',
         duration: 2000
       })
