@@ -15,6 +15,7 @@ Page({
          //中间值
          cost:0,
          anniu_show:-1,          //做按钮显示限制，防止用户多次点击单个按钮
+		 kejin:true,
   },
 
   /**
@@ -41,8 +42,13 @@ Page({
   //删除订单
   delete_order:function(event){
         let that = this;
+		 if(!that.data.kejin){
+            return false;
+        }
+        
         that.setData({
             anniu_show:event.currentTarget.dataset.anniu_show,
+			kejin:false,
       })
         wx.showLoading({
           title: '正在删除',
@@ -59,6 +65,7 @@ Page({
                   that.shuju();
                   that.setData({
                         anniu_show:true,
+						kejin:true,
                   })
               },
               fail(er){
@@ -70,6 +77,7 @@ Page({
                 })
                 that.setData({
                   anniu_show:true,
+				  kejin:true
                 })
               }
         })
@@ -78,8 +86,12 @@ Page({
   //第一要把publish的state改为3已完成，第二要把钱加到接单者的账户,第三要把接单的赚钱记录写入history，
   confirm_songda:function(event){
         let that = this;
+		 if(!that.data.kejin){
+            return false;
+        }
         that.setData({
             anniu_show:event.currentTarget.dataset.anniu_show,
+			kejin:false,
       })
 
         let id = event.currentTarget.dataset.id
@@ -149,6 +161,7 @@ Page({
                                     })
                                     that.setData({
                                           anniu_show:true,
+										  kejin:true,
                                         })
       
                                    
@@ -162,6 +175,7 @@ Page({
                                     })
                                     that.setData({
                                           anniu_show:true,
+										  kejin:true
                                         })
       
                               }
@@ -175,6 +189,7 @@ Page({
                             })
                             that.setData({
                               anniu_show:true,
+							  kejin:true
                             })
 
                         }
@@ -189,6 +204,7 @@ Page({
                 })
                 that.setData({
                   anniu_show:true,
+				  kejin:true
                 })
             }
       })
@@ -228,8 +244,12 @@ Page({
   //在publish数据库表里添加cui布尔值字段，来限制只能发一次催一催，防止多次点击发送
   cui:function(event){
         let that = this;
+		 if(!that.data.kejin){
+            return false;
+        }
         that.setData({
             anniu_show:event.currentTarget.dataset.anniu_show,
+			kejin:false,
       })
         wx.showLoading({
             title: '正在催',
@@ -260,6 +280,7 @@ Page({
                                     that.shuju();
                                     that.setData({
                                           anniu_show:true,
+										  kejin:true,
                                         })
                               }
                               if(!re.result.success){
@@ -270,6 +291,7 @@ Page({
                                     })
                                     that.setData({
                                           anniu_show:true,
+										  kejin:true
                                         })
                               }
                               
@@ -284,6 +306,7 @@ Page({
                               })
                               that.setData({
                                     anniu_show:true,
+									kejin:true
                                   })
                           }
                     })
@@ -298,6 +321,7 @@ Page({
                      })
                      that.setData({
                         anniu_show:true,
+						kejin:true
                       })
                }
          })
@@ -311,9 +335,13 @@ Page({
   //     }
   cancel_order:function(event){
         let that = this;
+		 if(!that.data.kejin){
+            return false;
+        }
         console.log(event)
         that.setData({
               anniu_show:event.currentTarget.dataset.anniu_show,
+			  kejin:false,
         })
         wx.showLoading({
           title: '正在取消',
@@ -347,6 +375,7 @@ Page({
                                   })
                                   that.setData({
                                     anniu_show:true,
+									kejin:true,
                                   })
                             }
                             if(!res.result.success){
@@ -358,6 +387,7 @@ Page({
                                   })
                                   that.setData({
                                     anniu_show:true,
+									kejin:true
                                   })
                             }
                         },
@@ -371,6 +401,7 @@ Page({
                             })
                             that.setData({
                               anniu_show:true,
+							  kejin:true
                             })
                         }
                   })
@@ -384,6 +415,7 @@ Page({
                   })
                   that.setData({
                         anniu_show:true,
+						kejin:true
                   })
               }
         })
