@@ -46,7 +46,8 @@ Page({
     })
     //先检查order表里是否还有未完成的订单，有则不给退押金
     db.collection('order').where({
-      category: _.or(1, 4)
+      category: _.or(1, 4),
+	  _openid:app.globalData.openid,
     }).get({
       success:function(res){
           if(res.data.length==0){
