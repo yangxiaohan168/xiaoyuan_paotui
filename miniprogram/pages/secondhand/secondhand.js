@@ -29,7 +29,7 @@ Page({
           //把缓存的openid赋给全局变量openid
           app.globalData.campus = res.data;
           //去获取该校区的闲置物品帖子
-           that.get_xianzhi();
+          // that.get_xianzhi();
         },
         fail(er){
           console.log('第一次进来')
@@ -112,7 +112,7 @@ Page({
     }).get({
       success:function(res){
           
-           if(res.data.length==0){
+           if(res.data.length==0||!res.data[0].campus_name){
             wx.hideLoading()
               wx.showModal({
                 title: '提示',
