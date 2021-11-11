@@ -13,6 +13,10 @@ exports.main = async (event, context) => {
       .match({
             _id: event.id,
       })
+        .sort({
+         creat:-1,
+      })
+      .limit(1)
       .lookup({
       from: 'order',
       localField: '_id',
