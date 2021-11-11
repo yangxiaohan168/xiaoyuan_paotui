@@ -2,7 +2,7 @@
 <view class="contain">
       <view class="cardyuer">
             <view class="title">我的余额</view>
-            <view class="num">{{balance}}.00</view>
+            <view class="num">{{balance}}</view>
       </view>
 
       <view class="card">
